@@ -4,22 +4,32 @@ const mongoose = require('mongoose');
 
 
 //create a schema
-var ksiazkaSchema = new mongoose.Schema({
+let ksiazkaSchema = new mongoose.Schema({
     tytul : String,
     autor : String,
     rok_wydania : String
 });
 
 //create a model
-var ksiazkaModel = mongoose.model('ksiazki',ksiazkaSchema);
+let ksiazkiModel = mongoose.model('ksiazki',ksiazkaSchema);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    var input=req.query.text;
-    ksiazkaModel.find({tytul : input}, function (err, rec) {
+    let tytul=req.query.tytul;
+    let autor=req.query.autor;
+    let rok_wydania=req.query.rok_wydania;
+    let query={};
+    if (tytul!==undefined)
+        query['tytul']=tytul;
+    if (autor!==undefined)
+        query['autor']=autor;
+    if (rok_wydania!==undefined)
+        query['rok_wydania']=rok_wydania;
+    console.log(query);
+    ksiazkiModel.find(query, function (err, rec) {
         if (err){
             console.log('db error');
-            res.send('!!! ERROR !!!');
+            res.json({ result : '!!! ERROR !!!'});
         }
         else if (rec.length===0){
             res.json( {result : null} );
