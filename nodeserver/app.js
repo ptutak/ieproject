@@ -8,11 +8,10 @@ const mongoose = require('mongoose');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const ksiazki = require('./routes/ksiazki');
+const autorzy = require('./routes/autorzy');
 
 const app = express();
 
-//db setup
-mongoose.connect('mongodb://localhost/biblioteka');
 
 
 
@@ -31,6 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 app.use('/ksiazki', ksiazki);
+app.use('/autorzy',autorzy);
 
 
 
