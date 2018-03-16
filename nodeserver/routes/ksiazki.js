@@ -14,7 +14,7 @@ let ksiazkaSchema = new mongoose.Schema({
 });
 
 //create a model
-let ksiazkiModel = mongoose.model('ksiazki',ksiazkaSchema);
+let ksiazkiModel = mongoose.model('ksiazkis',ksiazkaSchema);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

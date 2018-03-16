@@ -10,53 +10,17 @@ resp=mongoose.connect('mongodb://localhost/biblioteka');
 let autorSchema = new mongoose.Schema({
     imie : String,
     nazwisko : String,
-    data_urodzenia : String
+    data_urodzenia : Date
 });
 
 //create a model
-let autorzyModel = mongoose.model('autorzy',autorSchema);
+let autorzyModel = mongoose.model('autorzys',autorSchema);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
     let command=req.query.command;
     if (command==='dateUpdate'){
-        let response=[];
-        let query={};
-        autorzyModel.find(query,function(err,result){
-            if(err){
-                res.json({result : 'Date update error'});
-            }
-            else if (result.length===0){
-                response.push({result : null});
-                console.log(response);
-                res.json(response);
-
-            }
-            else{
-                //data_urodzenia=new Date(person.data_urodzenia);
-                console.log(result);
-                //console.log(data_urodzenia);
-                response.push(result);
-                res.json(response);
-            }
-        });
-/*
-        query.select('data_urodzenia');
-        query.exec((err,person)=>{
-           if(err)
-               res.json({result : 'Date update error'});
-           else{
-               data_urodzenia=new Date(person.data_urodzenia);
-               console.log(person);
-               console.log(data_urodzenia);
-               response.push(person);
-           }
-
-        });
-*/
-        response.push({result : 'Dates updated'});
-        console.log('abc');
-        //res.json(response);
+        res.json({result : null});
     }
     else {
         let imie=req.query.imie;
