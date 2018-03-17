@@ -27,7 +27,7 @@ module.exports.index2 = function(req, res, next) {
                 model.map((schema) => schema.view())
             })
         .then(
-            success(res)
+            success(res,0)
         ).catch(next);
 
 };

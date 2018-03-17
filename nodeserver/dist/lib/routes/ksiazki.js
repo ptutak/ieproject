@@ -36,4 +36,4 @@ router.get('/', function (req, res, next) {
 });
 
 exports.default = router;
-//# sourceMappingURL=ksiazki.js.map
+//# sourceMappingURL=books.js.map

@@ -1,21 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const books = require('./book/model').model;
+const books = require('./book');
 
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    let tytul=req.query.tytul;
-    let autor=req.query.autor;
-    let rok_wydania=req.query.rok_wydania;
+    let title=req.query.title;
+    let author=req.query.author;
+    let year=req.query.year;
     let query={};
-    if (tytul!==undefined)
-        query.tytul=tytul;
-    if (autor!==undefined)
-        query.autor=autor;
-    if (rok_wydania!==undefined)
-        query.rok_wydania=rok_wydania;
+    if (title!==undefined)
+        query.title=title;
+    if (author!==undefined)
+        query.author=author;
+    if (year!==undefined)
+        query.year=year;
     console.log(query);
+    books.get('/')
     books.find(query, function (err, rec) {
         if (err){
             console.log('db error');
@@ -27,7 +28,7 @@ router.get('/', function(req, res, next) {
         else {
             res.json(rec);
         }
-        
+
     });
 });
 
