@@ -47,4 +47,4 @@ router.get('/', function (req, res, next) {
 });
 
 exports.router = router;
-//# sourceMappingURL=authors.js.map
+//# sourceMappingURL=authorstest.js.map

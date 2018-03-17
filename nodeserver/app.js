@@ -11,8 +11,8 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 const books = require('./routes/book/index');
 const authors = require('./routes/author/index');
-const bookstest = require('./routes/books');
-const authorstest = require('./routes/authors');
+const bookstest = require('./routes/bookstest');
+const authorstest = require('./routes/authorstest');
 const app = express();
 
 const promise=mongoose.connect('mongodb://localhost/library');
