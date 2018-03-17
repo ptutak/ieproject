@@ -5,13 +5,16 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+
+
 const index = require('./routes/index');
 const users = require('./routes/users');
-const ksiazki = require('./routes/ksiazki');
-const autorzy = require('./routes/autorzy');
+const books = require('./routes/book/index');
+const authors = require('./routes/author/index');
 
 const app = express();
 
+const promise=mongoose.connect('mongodb://localhost/library');
 
 
 
@@ -29,10 +32,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/ksiazki', ksiazki);
-app.use('/autorzy',autorzy);
-
-
+app.use('/books', books);
+app.use('/authors',authors);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

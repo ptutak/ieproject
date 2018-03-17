@@ -1,6 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const mongodb = require('mongodb');
+let express = require('express');
+let mongodb = require('mongodb');
+
+const router = new express.Router();
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -125,4 +127,4 @@ router.get('/', function(req, res, next) {
     }
 });
 
-module.exports = router;
+module.exports=router;

@@ -1,20 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+const books = require('./book/model').model;
 
-//db setup
-mongoose.connect('mongodb://localhost/biblioteka');
-
-
-//create a schema
-let ksiazkaSchema = new mongoose.Schema({
-    tytul : String,
-    autor : String,
-    rok_wydania : String
-});
-
-//create a model
-let ksiazkiModel = mongoose.model('ksiazkis',ksiazkaSchema);
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -29,7 +16,7 @@ router.get('/', function(req, res, next) {
     if (rok_wydania!==undefined)
         query.rok_wydania=rok_wydania;
     console.log(query);
-    ksiazkiModel.find(query, function (err, rec) {
+    books.find(query, function (err, rec) {
         if (err){
             console.log('db error');
             res.json({ result : '!!! ERROR !!!'});
@@ -44,4 +31,4 @@ router.get('/', function(req, res, next) {
     });
 });
 
-module.exports = router;
+module.exports=router;

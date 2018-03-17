@@ -1,0 +1,1 @@
+{"version":3,"sources":["../app.js"],"names":["require","install","exports","module"],"mappings":";;AAAAA,QAAQ,oBAAR,EAA8BC,OAA9B;AACAD,QAAQ,qBAAR;;AAEAE,UAAUC,OAAOD,OAAP,GAAiBF,QAAQ,WAAR,CAA3B","file":"app.js","sourcesContent":["require('source-map-support').install();\r\nrequire('babel-core/register');\r\n\r\nexports = module.exports = require('./src/app')"]}

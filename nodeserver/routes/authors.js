@@ -1,20 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
-
-//db setup
-resp=mongoose.connect('mongodb://localhost/biblioteka');
+express = require('express');
+authors = require('./author/model').model;
 
 
-//create a schema
-let autorSchema = new mongoose.Schema({
-    imie : String,
-    nazwisko : String,
-    data_urodzenia : Date
-});
-
-//create a model
-let autorzyModel = mongoose.model('autorzys',autorSchema);
+const router = new express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -34,7 +22,7 @@ router.get('/', function(req, res, next) {
         if (data_urodzenia!==undefined)
             query.data_urodzenia=data_urodzenia;
         console.log(query);
-        autorzyModel.find(query, function (err, rec) {
+        authors.find(query, function (err, rec) {
             if (err){
                 console.log('db error');
                 res.json({ result : '!!! ERROR !!!'});

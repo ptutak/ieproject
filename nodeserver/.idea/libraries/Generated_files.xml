@@ -1,0 +1,45 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/dist/app.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/app.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/author/controller.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/author/index.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/author/model.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/authors.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/book/controller.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/book/index.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/book/model.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/index.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/ksiazki.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/service/response.js" />
+        <item url="file://$PROJECT_DIR$/dist/lib/routes/users.js" />
+        <item url="file://$PROJECT_DIR$/dist/src/app.js" />
+        <item url="file://$PROJECT_DIR$/dist/src/routes/author/controller.js" />
+        <item url="file://$PROJECT_DIR$/dist/src/routes/author/index.js" />
+        <item url="file://$PROJECT_DIR$/dist/src/routes/ksiazki.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/dist/app.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/app.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/author/controller.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/author/index.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/author/model.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/authors.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/book/controller.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/book/index.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/book/model.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/index.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/ksiazki.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/service/response.js" />
+      <root url="file://$PROJECT_DIR$/dist/lib/routes/users.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/app.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/routes/author/controller.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/routes/author/index.js" />
+      <root url="file://$PROJECT_DIR$/dist/src/routes/ksiazki.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
