@@ -18,7 +18,7 @@ const BookSchema = new mongoose.Schema({
 
 
 BookSchema.methods = {
-    view(type = 'list'){
+    view(type = 'full'){
         switch(type){
             case 'list':
                 return {

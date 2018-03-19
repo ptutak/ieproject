@@ -20,7 +20,7 @@ const AuthorSchema = new mongoose.Schema({
     }
 });
 AuthorSchema.methods = {
-    view (type = 'list'){
+    view (type = 'full'){
         switch(type){
             case 'list':
                 return {

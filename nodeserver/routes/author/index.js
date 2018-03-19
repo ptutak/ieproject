@@ -5,12 +5,11 @@ const controller = require('./controller');
 const router = new express.Router();
 // Start here
 // Core examples - you need to have it in your project!
-router.get('/index', controller.index);
-router.get('/index2',controller.index2);
+router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
-router.get('/:id', controller.update);
-router.get('/:id', controller.destroy);
+router.post('/:id', controller.update);
+router.delete('/:id', controller.delete);
 
 
 

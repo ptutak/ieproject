@@ -2,32 +2,16 @@ const model = require('./model').model;
 const success = require('../service/response').success;
 const notFound = require('../service/response').notFound;
 
+
 module.exports.index = function(req, res, next) {
     return model
         .find({})
         .then(
             function(model){
-                model.map((schema) => schema.view())
-            }
-        )
-        .then(
-            function(result,status){
-                res.json(result);
-            }
-        ).catch(next);
-
-};
-
-
-module.exports.index2 = function(req, res, next) {
-    return model
-        .find({})
-        .then(
-            function(model){
-                model.map((schema) => schema.view())
+                return model.map((schema) => schema.view())
             })
         .then(
-            success(res,0)
+            success(res)
         ).catch(next);
 
 };
@@ -36,7 +20,7 @@ module.exports.index2 = function(req, res, next) {
 module.exports.show = function(req, res, next){
     const id = req.params.id;
     return model.findById(id).exec()
-        .then((actor) => actor ? actor.view('full') : null)
+        .then((actor) => actor ? actor.view() : null)
         .then(success(res))
         .catch(notFound(res))
 };
@@ -44,7 +28,7 @@ module.exports.show = function(req, res, next){
 module.exports.create = function(req, res, next){
     const body = req.body;
     model.create(body)
-        .then((actor) => actor.view('full'))
+        .then((actor) => actor.view())
         .then(success(res))
         .catch(next)
 };
@@ -56,12 +40,12 @@ module.exports.update = function(req, res, next){
     return model.findById(id)
         .then(notFound(res))
         .then((actor) => actor ? Object.assign(actor, body).save() : null)
-        .then((actor) => actor ? actor.view('full') : null)
+        .then((actor) => actor ? actor.view() : null)
         .then(success(res))
         .catch(next)
 };
 
-module.exports.destroy = function(req, res, next){
+module.exports.delete = function(req, res, next){
     const id = req.params.id;
     return model.findById(id)
         .then(notFound(res))
