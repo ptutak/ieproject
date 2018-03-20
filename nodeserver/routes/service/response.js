@@ -1,4 +1,4 @@
-module.exports.success = function(res, status) {
+module.exports.successJSON = function(res, status) {
     return (entity) => {
         if (entity) {
             res.status(status || 200).json(entity)
