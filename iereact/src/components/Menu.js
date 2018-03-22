@@ -3,7 +3,7 @@ import {Navbar, NavItem, Nav, NavDropdown, MenuItem} from 'react-bootstrap';
 
 class Menu extends Component {
     changeToMain(){
-
+        this.props.changeMain('Welcome');
     }
     render(){
         return (
