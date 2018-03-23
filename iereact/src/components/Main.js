@@ -1,17 +1,30 @@
 import React, { Component } from 'react';
-import Books from './Books';
 
 
 class Main extends Component {
     render() {
-        return (
-            <div>
-                <h1>
-                    {this.props.mainTitle}
-                </h1>
-                <Books/>
-            </div>
-        )
+        let mainSite;
+
+
+        switch(this.props.mainSite){
+            case "Welcome":
+                mainSite=
+                    <div>
+                        <h1>
+                            It's WORKING!!!
+                            WELCOME!!!
+                        </h1>
+                    </div>;
+                break;
+            default:
+                mainSite=
+                    <div>
+                        Hello!!! ;)
+                    </div>
+        }
+
+
+        return mainSite;
     }
 }
 
