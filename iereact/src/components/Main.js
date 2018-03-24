@@ -1,30 +1,28 @@
 import React, { Component } from 'react';
+import Welcome from './Welcome';
+import AddAuthor from './AddAuthor';
+import Authors from './Authors';
+import AddBook from './AddBook';
+import Books from './Books';
 
 
 class Main extends Component {
+
     render() {
-        let mainSite;
-
-
         switch(this.props.mainSite){
             case "Welcome":
-                mainSite=
-                    <div>
-                        <h1>
-                            It's WORKING!!!
-                            WELCOME!!!
-                        </h1>
-                    </div>;
-                break;
+                return <Welcome/>;
+            case "AddAuthor":
+                return <AddAuthor/>;
+            case "Authors":
+                return <AddAuthor/>;
+            case "AddBook":
+                return <AddBook/>;
+            case "Books":
+                return <Books/>;
             default:
-                mainSite=
-                    <div>
-                        Hello!!! ;)
-                    </div>
+                return <Welcome/>;
         }
-
-
-        return mainSite;
     }
 }
 

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import {Navbar, NavItem, Nav, NavDropdown, MenuItem} from 'react-bootstrap';
 
 class Menu extends Component {
-    changeMainSite(e){
-        this.props.changeMain("AddAuthor");
-        e.target()
+    changeMainSite(e) {
+        this.props.changeMain(e.target.getAttribute("index"));
+        console.log(e.target.getAttribute("index"));
     }
 
     render(){
@@ -12,25 +12,25 @@ class Menu extends Component {
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                            <a href="#home" onClick={this.changeMainSite.bind(this)}>Library</a>
+                            <a index="Welcome" href="#home" onClick={this.changeMainSite.bind(this)}>Library</a>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavDropdown eventKey={3} title="Authors" id="basic-nav-dropdown">
-                            <MenuItem eventKey={3.1}>Add author</MenuItem>
-                            <MenuItem eventKey={3.2}>List of authors</MenuItem>
+                        <NavDropdown title="Authors" id="basic-nav-dropdown">
+                            <MenuItem index="AddAuthor" onClick={this.changeMainSite.bind(this)}>Add author</MenuItem>
+                            <MenuItem index="Authors" onClick={this.changeMainSite.bind(this)}>List of authors</MenuItem>
                         </NavDropdown>
-                        <NavDropdown eventKey={3} title="Books" id="basic-nav-dropdown">
-                            <MenuItem eventKey={3.1}>Add book</MenuItem>
-                            <MenuItem eventKey={3.2}>List of books</MenuItem>
+                        <NavDropdown title="Books" id="basic-nav-dropdown">
+                            <MenuItem index="AddBook" onClick={this.changeMainSite.bind(this)}>Add book</MenuItem>
+                            <MenuItem index="Books" onClick={this.changeMainSite.bind(this)}>List of books</MenuItem>
                         </NavDropdown>
                     </Nav>
                     <Nav pullRight>
-                        <NavItem eventKey={1}>
+                        <NavItem index="SignUp">
                             Sign Up
                         </NavItem>
-                        <NavItem eventKey={2}>
+                        <NavItem index="Login">
                             Login
                         </NavItem>
                     </Nav>
