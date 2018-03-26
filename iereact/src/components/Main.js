@@ -15,7 +15,7 @@ class Main extends Component {
             case "AddAuthor":
                 return <AddAuthor/>;
             case "Authors":
-                return <AddAuthor/>;
+                return <Authors/>;
             case "AddBook":
                 return <AddBook/>;
             case "Books":
