@@ -2,26 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a1a4a23-ecf3-4788-8e7f-882b7cc7bc69" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/../Hello.jpg" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/components/UploadImage.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../nodeserver/public/images/79bc05d568cf1f802663a2f72c214806" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../nodeserver/public/images/8dbe5ce31607ba34fed849a7489a5d4e" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../nodeserver/public/images/Hello.jpg" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../nodeserver/routes/service/images.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/../nodeserver/routes/service/imageupload.js" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddAuthor.js" afterPath="$PROJECT_DIR$/src/components/AddAuthor.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddBook.js" afterPath="$PROJECT_DIR$/src/components/AddBook.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/Authors.js" afterPath="$PROJECT_DIR$/src/components/Authors.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/Book.js" afterPath="$PROJECT_DIR$/src/components/Book.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/Books.js" afterPath="$PROJECT_DIR$/src/components/Books.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/Main.js" afterPath="$PROJECT_DIR$/src/components/Main.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../nodeserver/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/app.js" afterPath="$PROJECT_DIR$/../nodeserver/app.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/bin/www" afterPath="$PROJECT_DIR$/../nodeserver/bin/www" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/package-lock.json" afterPath="$PROJECT_DIR$/../nodeserver/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/package.json" afterPath="$PROJECT_DIR$/../nodeserver/package.json" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/book/model.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/book/model.js" />
+      <change beforePath="$PROJECT_DIR$/../nodeserver/public/images/79bc05d568cf1f802663a2f72c214806" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/../nodeserver/public/images/8dbe5ce31607ba34fed849a7489a5d4e" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -289,12 +271,12 @@
       <workItem from="1521901730001" duration="9169000" />
       <workItem from="1522083755347" duration="604000" />
       <workItem from="1522085084359" duration="1950000" />
-      <workItem from="1522093598166" duration="2945000" />
+      <workItem from="1522093598166" duration="2993000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42601000" />
+    <option name="totallyTimeSpent" value="42649000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
