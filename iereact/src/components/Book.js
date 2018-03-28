@@ -9,6 +9,8 @@ class Book extends Component {
 
     render() {
         return (
+            <table>
+                <tbody>
                     <tr>
                         <td>
                             <img src={this.props.image} alt={this.state.altText} />
@@ -17,7 +19,8 @@ class Book extends Component {
                             Jakiś tekst
                         </td>
                     </tr>
-
+                </tbody>
+            </table>
         )
     }
 
