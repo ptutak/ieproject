@@ -14,7 +14,7 @@ const BookSchema = new mongoose.Schema({
     year : {
         type:Date
     },
-    image : {
+    imageURL : {
         type: String,
         trim:true
     }

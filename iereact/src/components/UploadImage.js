@@ -32,9 +32,8 @@ export default class UploadImage extends Component{
         return (
             <div style={this.props.style}>
                 <form onSubmit={this.handleUploadImage}>
-                    <input ref={(inp) => { this.uploadInput = inp; }} type="file" />
-                    <br/>
-                    <button>Upload</button>
+                    <input ref={(inp) => { this.uploadInput = inp; }} type="file"/>
+                    <input type='submit' value='Upload'/>
                 </form>
             </div>
         );
