@@ -5,8 +5,8 @@ import {ListGroup, ListGroupItem, Image, Table, Button} from 'react-bootstrap';
 export default class AddBook extends Component{
     constructor(props){
         super(props);
-        this.state={title :'',author:'',year:null, imageURL:require('../images/noimage.png'),authors:[''],yearState:null, titleState:null};
-        this.getImageUrl=this.getImageUrl.bind(this);
+        this.state={title :'',author:'',year:null, imageURL:null,authors:[''],yearState:null, titleState:null};
+        this.setImageUrl=this.setImageUrl.bind(this);
         this.getAuthors=this.getAuthors.bind(this);
         this.getAuthors();
         this.getOptions=this.getOptions.bind(this);
@@ -17,7 +17,7 @@ export default class AddBook extends Component{
         this.getProperImage=this.getProperImage.bind(this);
     }
 
-    getImageUrl(url){
+    setImageUrl(url){
         this.setState({imageURL:url});
     }
 
@@ -67,7 +67,20 @@ export default class AddBook extends Component{
 
     handleAddBook(event){
         if (this.state.title!=='' && this.state.year>0 && this.state.year<2019){
-            alert("All OK!!! ;)");
+            fetch('http://localhost:3001/books/', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: this.state.title,
+                    year: new Date(this.state.year.toString()),
+                    author:this.state.author.id,
+                    imageURL:this.state.imageURL
+
+                })
+            }).then((response)=>{console.log(response)})
         }
         else{
             if (this.state.title==='') {
@@ -79,7 +92,6 @@ export default class AddBook extends Component{
 
         }
     }
-
 
 
     render() {
@@ -105,7 +117,7 @@ export default class AddBook extends Component{
                             </ListGroupItem>
                             <ListGroupItem>
                                 Upload book image:
-                                <UploadImage ret={this.getImageUrl}/>
+                                <UploadImage ret={this.setImageUrl}/>
                             </ListGroupItem>
                         </ListGroup>
                     </td>

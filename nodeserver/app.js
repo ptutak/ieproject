@@ -13,8 +13,8 @@ const users = require('./routes/users');
 const books = require('./routes/book/index');
 const authors = require('./routes/author/index');
 const imageupload = require('./routes/service/imageupload');
-const bookstest = require('./routes/bookstest');
-const authorstest = require('./routes/authorstest');
+//const bookstest = require('./routes/bookstest');
+//const authorstest = require('./routes/authorstest');
 const images = require('./routes/service/images');
 const app = express();
 
@@ -42,8 +42,8 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/books', books);
 app.use('/authors',authors);
-app.use('/bookstest',bookstest);
-app.use('/authorstest',authorstest);
+//app.use('/bookstest',bookstest);
+//app.use('/authorstest',authorstest);
 app.use('/imageupload',imageupload);
 app.use('/images',images);
 // catch 404 and forward to error handler
