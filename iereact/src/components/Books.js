@@ -9,6 +9,12 @@ class Books extends Component {
         this.state={books:null};
         this.getBooks=this.getBooks.bind(this);
         this.getBooks();
+        this.refreshOnDelete=this.refreshOnDelete.bind(this);
+        this.renderBooks=this.renderBooks.bind(this);
+    }
+
+    refreshOnDelete(){
+        this.getBooks();
     }
 
     getBooks(){
@@ -18,18 +24,23 @@ class Books extends Component {
                 'Content-Type':'application/json'
             }
         }).then((response)=>{return response.json()}).then((data)=>{
-            let books=data.map((book,index)=>{
-                return <ListGroupItem key={index}><Book book={book}/></ListGroupItem>
-            });
-            this.setState({books:books});
+            this.setState({books:data});
         })
+    }
+
+    renderBooks(){
+        if (this.state.books){
+            return this.state.books.map((book,index)=>{
+                return <ListGroupItem key={index}><Book book={book} refreshOnDelete={this.refreshOnDelete}/></ListGroupItem>
+            });
+        }
     }
 
     render() {
         return(
             <div>
                 <ListGroup>
-                    {this.state.books}
+                    {this.renderBooks()}
                 </ListGroup>
             </div>
         )

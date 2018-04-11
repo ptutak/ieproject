@@ -80,7 +80,7 @@ export default class AddBook extends Component{
                     imageURL:this.state.imageURL
 
                 })
-            }).then((response)=>{console.log(response)})
+            }).then((response)=>{console.log(response);this.props.changeMain('Books');})
         }
         else{
             if (this.state.title==='') {
@@ -91,6 +91,7 @@ export default class AddBook extends Component{
             }
 
         }
+
         event.preventDefault();
     }
 

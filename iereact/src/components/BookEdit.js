@@ -8,7 +8,7 @@ export default class BookEdit extends Component{
         this.state={
             title:this.props.book.title,
             author:this.props.book.author[0],
-            year:new Date(this.props.book.year).getFullYear(),
+            year:new Date(this.props.book.year).getFullYear().toString(),
             imageURL:this.props.book.imageURL,
             authors:[],
             yearState:null,
@@ -83,18 +83,25 @@ export default class BookEdit extends Component{
 
     handleYearInput(event){
         let year=parseInt(event.target.value,10);
-        this.setState({year:year});
-        if (year>0 && year<2019) {
-            this.setState({yearState: null});
-            this.props.setNewBook({
-                title:this.state.title,
-                author:[this.state.author],
-                year:new Date(year.toString()),
-                imageURL:this.state.imageURL
-            });
+        if (!isNaN(year)){
+            this.setState({year:year});
+            if (year>0 && year<2019) {
+                this.setState({yearState: null});
+                this.props.setNewBook({
+                    title: this.state.title,
+                    author: [this.state.author],
+                    year: new Date(year.toString()),
+                    imageURL: this.state.imageURL
+                });
+            }
+            else
+                this.setState({yearState: 'danger'});
+
         }
-        else
-            this.setState({yearState:'danger'});
+        else {
+            this.setState({year:''});
+            this.setState({yearState: 'danger'});
+        }
         event.preventDefault();
     }
     render() {
@@ -112,7 +119,7 @@ export default class BookEdit extends Component{
                                     Author:<select onChange={this.handleAuthorSelect} value={this.state.author}>{this.getOptions()}</select>
                                 </ListGroupItem>
                                 <ListGroupItem bsStyle={this.state.yearState}>
-                                    Year:<input type="text" onChange={this.handleYearInput}/>
+                                    Year:<input type="number" onChange={this.handleYearInput} value={this.state.year}/>
                                 </ListGroupItem>
                                 <ListGroupItem>
                                     Upload book image:

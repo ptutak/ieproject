@@ -11,7 +11,9 @@ class App extends Component {
             welcomeTitle:"Hello",
             mainSites:["Welcome","Books", "AddBook","Authors","AddAuthor"],
             actualSite:"Welcome"
-        }
+        };
+        this.changeMain=this.changeMain.bind(this);
+        this.changeWelcomeTitle=this.changeWelcomeTitle.bind(this);
     }
 
     changeWelcomeTitle(state){
@@ -44,8 +46,8 @@ class App extends Component {
         return (
           <div className="App">
               <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous"/>
-              <Menu changeMain={this.changeMain.bind(this)} changeWelcomeTitle={this.changeWelcomeTitle.bind(this)}/>
-              <Main mainSite={this.state.actualSite} mainSites={this.state.mainSites} welcomeTitle={this.state.welcomeTitle}/>
+              <Menu changeMain={this.changeMain} changeWelcomeTitle={this.changeWelcomeTitle}/>
+              <Main changeMain={this.changeMain} mainSite={this.state.actualSite} mainSites={this.state.mainSites} welcomeTitle={this.state.welcomeTitle}/>
           </div>
         );
   }

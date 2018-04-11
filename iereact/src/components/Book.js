@@ -16,6 +16,7 @@ class Book extends Component {
         this.renderButtonEditUpdate=this.renderButtonEditUpdate.bind(this);
         this.handleEditClick=this.handleEditClick.bind(this);
         this.handleUpdateClick=this.handleUpdateClick.bind(this);
+        this.handleDeleteClick=this.handleDeleteClick.bind(this);
         this.setNewBook=this.setNewBook.bind(this);
     }
 
@@ -35,16 +36,27 @@ class Book extends Component {
                 body: JSON.stringify(this.state.newBook)
             }).then((response) => {
                 console.log(response);
-                fetch('http://localhost:3001/books/'+this.state.book.id).then((response)=>{return response.json()}).then((data)=>{
-                    console.log(data);
-                    this.setState({book:data});
-                }).then(()=> {
-                        this.setState({editable: false});
-                    }
-                );
+                fetch('http://localhost:3001/books/'+this.state.book.id)
+                    .then((response)=>{return response.json()})
+                    .then(
+                        (data)=>{
+                            console.log(data);
+                            this.setState({book:data});
+                        })
+                    .then(
+                        ()=> {
+                            this.setState({editable: false});
+                        });
             });
-
         }
+        event.preventDefault();
+    }
+
+    handleDeleteClick(event){
+        fetch('http://localhost:3001/books/'+this.state.book.id,{
+            method:'DELETE',
+            body:JSON.stringify(this.state.book.id)
+        }).then((response)=>{console.log(response);this.props.refreshOnDelete()});
 
         event.preventDefault();
     }
@@ -55,13 +67,17 @@ class Book extends Component {
 
     renderButtonEditUpdate(){
         if (this.state.editable){
-            return <Button onClick={this.handleUpdateClick}>
+            return(
+            <Button onClick={this.handleUpdateClick}>
                 Update
             </Button>
+            );
         }
-        return <Button onClick={this.handleEditClick}>
-            Edit
-        </Button>
+        return (
+            <Button onClick={this.handleEditClick}>
+                Edit
+            </Button>
+        );
     }
 
 
@@ -85,16 +101,14 @@ class Book extends Component {
                         {this.renderButtonEditUpdate()}
                     </span>
                     <span>
-                        <Button>
+                        <Button onClick={this.handleDeleteClick}>
                             Delete
                         </Button>
-                </span>
+                    </span>
                 </div>
             </div>
-
         )
     }
-
 }
 
 export default Book;

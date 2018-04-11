@@ -17,7 +17,7 @@ class Main extends Component {
             case "Authors":
                 return <Authors/>;
             case "AddBook":
-                return <AddBook/>;
+                return <AddBook changeMain={this.props.changeMain}/>;
             case "Books":
                 return <Books/>;
             default:

@@ -47,6 +47,7 @@ module.exports.update = function(req, res, next){
 
 module.exports.delete = function(req, res, next){
     const id = req.params.id;
+    console.log(id);
     return model.findById(id)
         .then(notFound(res))
         .then((actor) => actor ? actor.remove() : null)

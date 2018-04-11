@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import {Navbar, NavItem, Nav, NavDropdown, MenuItem} from 'react-bootstrap';
 
 class Menu extends Component {
+    constructor(props){
+        super(props);
+        this.changeMainSite=this.changeMainSite.bind(this);
+    }
+
     changeMainSite(e) {
         this.props.changeMain(e.target.getAttribute("index"));
         console.log(e.target.getAttribute("index"));
@@ -12,18 +17,18 @@ class Menu extends Component {
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                            <a index="Welcome" href="#home" onClick={this.changeMainSite.bind(this)}>Library</a>
+                            <a index="Welcome" href="#home" onClick={this.changeMainSite}>Library</a>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
                         <NavDropdown title="Authors" id="basic-nav-dropdown">
-                            <MenuItem index="Authors" onClick={this.changeMainSite.bind(this)}>List</MenuItem>
-                            <MenuItem index="AddAuthor" onClick={this.changeMainSite.bind(this)}>Add author</MenuItem>
+                            <MenuItem index="Authors" onClick={this.changeMainSite}>List</MenuItem>
+                            <MenuItem index="AddAuthor" onClick={this.changeMainSite}>Add author</MenuItem>
                         </NavDropdown>
                         <NavDropdown title="Books" id="basic-nav-dropdown">
-                            <MenuItem index="Books" onClick={this.changeMainSite.bind(this)}>List</MenuItem>
-                            <MenuItem index="AddBook" onClick={this.changeMainSite.bind(this)}>Add book</MenuItem>
+                            <MenuItem index="Books" onClick={this.changeMainSite}>List</MenuItem>
+                            <MenuItem index="AddBook" onClick={this.changeMainSite}>Add book</MenuItem>
                         </NavDropdown>
                     </Nav>
                     <Nav pullRight>
