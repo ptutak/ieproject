@@ -114,7 +114,7 @@ export default class AddBook extends Component{
                                 Author:<select onChange={this.handleAuthorSelect} value={this.state.author}>{this.getOptions()}</select>
                             </ListGroupItem>
                             <ListGroupItem bsStyle={this.state.yearState}>
-                                Year:<input type="text" onChange={this.handleYearInput} value={this.state.value}/>
+                                Year:<input type="text" onChange={this.handleYearInput}/>
                             </ListGroupItem>
                             <ListGroupItem>
                                 Upload book image:

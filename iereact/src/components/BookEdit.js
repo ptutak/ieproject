@@ -2,11 +2,10 @@ import React, {Component} from 'react';
 import UploadImage from "./UploadImage";
 import {ListGroup, ListGroupItem, Image, Table} from 'react-bootstrap';
 
-export default class EditBook extends Component{
+export default class BookEdit extends Component{
     constructor(props){
         super(props);
         this.state={
-            book:this.props.book,
             title:this.props.book.title,
             author:this.props.book.author[0],
             year:new Date(this.props.book.year).getFullYear(),
@@ -22,12 +21,17 @@ export default class EditBook extends Component{
         this.handleYearInput=this.handleYearInput.bind(this);
         this.handleAuthorSelect=this.handleAuthorSelect.bind(this);
         this.handleTitleInput=this.handleTitleInput.bind(this);
-        this.handleAddBook=this.handleAddBook.bind(this);
         this.getProperImage=this.getProperImage.bind(this);
     }
 
     setImageUrl(url){
         this.setState({imageURL:url});
+        this.props.setNewBook({
+            title:this.state.title,
+            author:[this.state.author],
+            year:new Date(this.state.year.toString()),
+            imageURL:url
+        });
     }
 
     getProperImage(){
@@ -38,9 +42,9 @@ export default class EditBook extends Component{
     }
 
     getAuthors(){
-        fetch('http://localhost:3001/authors/').then((response)=>{return response.json()})
-            .then((data)=>{
-                console.log(data);this.setState({authors:data})})
+        fetch('http://localhost:3001/authors/')
+            .then((response)=>{return response.json()})
+            .then((data)=>{this.setState({authors:data})})
     }
 
     getOptions(){
@@ -51,13 +55,26 @@ export default class EditBook extends Component{
 
     handleAuthorSelect(event){
         this.setState({author:event.target.value});
+        this.props.setNewBook({
+            title:this.state.title,
+            author:[event.target.value],
+            year:new Date(this.state.year.toString()),
+            imageURL:this.state.imageURL
+        });
         event.preventDefault();
     }
 
     handleTitleInput(event){
         this.setState({title:event.target.value});
-        if (event.target.value!=='')
-            this.setState({titleState:null});
+        if (event.target.value!=='') {
+            this.setState({titleState: null});
+            this.props.setNewBook({
+                title:event.target.value,
+                author:[this.state.author],
+                year:new Date(this.state.year.toString()),
+                imageURL:this.state.imageURL
+            });
+        }
         else
             this.setState({titleState:'danger'});
         event.preventDefault();
@@ -67,44 +84,19 @@ export default class EditBook extends Component{
     handleYearInput(event){
         let year=parseInt(event.target.value,10);
         this.setState({year:year});
-        if (year>0 && year<2019)
-            this.setState({yearState:null});
+        if (year>0 && year<2019) {
+            this.setState({yearState: null});
+            this.props.setNewBook({
+                title:this.state.title,
+                author:[this.state.author],
+                year:new Date(year.toString()),
+                imageURL:this.state.imageURL
+            });
+        }
         else
             this.setState({yearState:'danger'});
         event.preventDefault();
     }
-
-
-    handleAddBook(event){
-        if (this.state.title!=='' && this.state.year>0 && this.state.year<2019){
-            fetch('http://localhost:3001/books/', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    title: this.state.title,
-                    year: new Date(this.state.year.toString()),
-                    author:this.state.author,
-                    imageURL:this.state.imageURL
-
-                })
-            }).then((response)=>{console.log(response)})
-        }
-        else{
-            if (this.state.title==='') {
-                this.setState({titleState: 'danger'});
-            }
-            if (this.state.year<=0 || this.state.year>=2019){
-                this.setState({yearState:'danger'});
-            }
-
-        }
-        event.preventDefault();
-    }
-
-
     render() {
         return (
             <div >
@@ -120,7 +112,7 @@ export default class EditBook extends Component{
                                     Author:<select onChange={this.handleAuthorSelect} value={this.state.author}>{this.getOptions()}</select>
                                 </ListGroupItem>
                                 <ListGroupItem bsStyle={this.state.yearState}>
-                                    Year:<input type="text" onChange={this.handleYearInput} value={this.state.year} />
+                                    Year:<input type="text" onChange={this.handleYearInput}/>
                                 </ListGroupItem>
                                 <ListGroupItem>
                                     Upload book image:
