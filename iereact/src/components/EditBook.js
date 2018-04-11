@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
 import UploadImage from "./UploadImage";
-import {ListGroup, ListGroupItem, Image, Table, Button} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Image, Table} from 'react-bootstrap';
 
-export default class AddBook extends Component{
+export default class EditBook extends Component{
     constructor(props){
         super(props);
-        this.state={title :'',author:'',year:null, imageURL:null,authors:[''],yearState:null, titleState:null};
+        this.state={
+            book:this.props.book,
+            title:this.props.book.title,
+            author:this.props.book.author[0],
+            year:new Date(this.props.book.year).getFullYear(),
+            imageURL:this.props.book.imageURL,
+            authors:[],
+            yearState:null,
+            titleState:null
+        };
         this.setImageUrl=this.setImageUrl.bind(this);
         this.getAuthors=this.getAuthors.bind(this);
         this.getAuthors();
@@ -30,7 +39,8 @@ export default class AddBook extends Component{
 
     getAuthors(){
         fetch('http://localhost:3001/authors/').then((response)=>{return response.json()})
-            .then((data)=>{this.setState({authors:data, author:data[0].id}) })
+            .then((data)=>{
+                console.log(data);this.setState({authors:data})})
     }
 
     getOptions(){
@@ -96,36 +106,34 @@ export default class AddBook extends Component{
 
 
     render() {
-
         return (
             <div >
                 <Table striped bordered condensed hover>
-                <tbody>
-                <tr>
-                    <td>
-                        {this.getProperImage()}
-                    </td>
-                    <td style={{width:'50%'}}>
-                        <ListGroup style={{ textAlign:'left'}}>
-                            <ListGroupItem bsStyle={this.state.titleState}>
-                                Title:<input type="text" onChange={this.handleTitleInput} value={this.state.title}/>
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                Author:<select onChange={this.handleAuthorSelect} value={this.state.author}>{this.getOptions()}</select>
-                            </ListGroupItem>
-                            <ListGroupItem bsStyle={this.state.yearState}>
-                                Year:<input type="text" onChange={this.handleYearInput} value={this.state.value}/>
-                            </ListGroupItem>
-                            <ListGroupItem>
-                                Upload book image:
-                                <UploadImage ret={this.setImageUrl}/>
-                            </ListGroupItem>
-                        </ListGroup>
-                    </td>
-                </tr>
-                </tbody>
+                    <tbody>
+                    <tr>
+                        <td style={{width:'50%'}}>
+                            <ListGroup style={{ textAlign:'left'}}>
+                                <ListGroupItem bsStyle={this.state.titleState}>
+                                    Title:<input type="text" onChange={this.handleTitleInput} value={this.state.title}/>
+                                </ListGroupItem>
+                                <ListGroupItem>
+                                    Author:<select onChange={this.handleAuthorSelect} value={this.state.author}>{this.getOptions()}</select>
+                                </ListGroupItem>
+                                <ListGroupItem bsStyle={this.state.yearState}>
+                                    Year:<input type="text" onChange={this.handleYearInput} value={this.state.year} />
+                                </ListGroupItem>
+                                <ListGroupItem>
+                                    Upload book image:
+                                    <UploadImage ret={this.setImageUrl}/>
+                                </ListGroupItem>
+                            </ListGroup>
+                        </td>
+                        <td>
+                            {this.getProperImage()}
+                        </td>
+                    </tr>
+                    </tbody>
                 </Table>
-                <Button onClick={this.handleAddBook}>Add Book</Button>
             </div>
         );
     }

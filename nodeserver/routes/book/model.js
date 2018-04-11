@@ -34,7 +34,8 @@ BookSchema.methods = {
                     id:this.id,
                     title:this.title,
                     author:this.author,
-                    year:this.year
+                    year:this.year,
+                    imageURL:this.imageURL
                 };
         }
 

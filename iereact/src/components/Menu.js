@@ -18,12 +18,12 @@ class Menu extends Component {
                 <Navbar.Collapse>
                     <Nav>
                         <NavDropdown title="Authors" id="basic-nav-dropdown">
+                            <MenuItem index="Authors" onClick={this.changeMainSite.bind(this)}>List</MenuItem>
                             <MenuItem index="AddAuthor" onClick={this.changeMainSite.bind(this)}>Add author</MenuItem>
-                            <MenuItem index="Authors" onClick={this.changeMainSite.bind(this)}>List of authors</MenuItem>
                         </NavDropdown>
                         <NavDropdown title="Books" id="basic-nav-dropdown">
+                            <MenuItem index="Books" onClick={this.changeMainSite.bind(this)}>List</MenuItem>
                             <MenuItem index="AddBook" onClick={this.changeMainSite.bind(this)}>Add book</MenuItem>
-                            <MenuItem index="Books" onClick={this.changeMainSite.bind(this)}>List of books</MenuItem>
                         </NavDropdown>
                     </Nav>
                     <Nav pullRight>
