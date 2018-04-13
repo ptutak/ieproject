@@ -20,6 +20,8 @@ class Main extends Component {
                 return <AddBook changeMain={this.props.changeMain}/>;
             case "Books":
                 return <Books/>;
+            case "Register":
+            case "Login":
             default:
                 return <Welcome/>;
         }

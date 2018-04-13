@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import UploadImage from "./UploadImage";
 import {ListGroup, ListGroupItem, Image, Table, Button} from 'react-bootstrap';
+import requestJSON from '../services/requestJSON';
 
 export default class AddBook extends Component{
     constructor(props){
@@ -67,37 +68,24 @@ export default class AddBook extends Component{
 
     handleAddBook(event){
         if (this.state.title!=='' && this.state.year>0 && this.state.year<2019){
-            fetch('http://localhost:3001/books/', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    title: this.state.title,
-                    year: new Date(this.state.year.toString()),
-                    author:this.state.author,
-                    imageURL:this.state.imageURL
-
-                })
-            }).then((response)=>{console.log(response);
-
-            let author;
-            for (author in this.state.authors){
-                if (author.id===this.state.author)
-                    break;
-            }
-            author.books.push()
-            fetch('http://localhost:3001/authors/'+this.state.author.toString(),{
-                method:'PUT',
-                headers:{
-                    'Accept':'application/json',
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify(author)
-            })
-
-            this.props.changeMain('Books');})
+            let bookid;
+            requestJSON('/books/','POST',JSON.stringify({
+                title: this.state.title,
+                year: new Date(this.state.year.toString()),
+                author:this.state.author,
+                imageURL:this.state.imageURL
+            }))
+                .then((response)=>{return response.json()})
+                .then((body)=>{
+                    bookid=body.id;
+                    this.state.authors.forEach((author,index)=>{
+                        if (author.id===this.state.author) {
+                            author.books.push(bookid);
+                            requestJSON('/authors/' + author.id.toString(), 'PUT', JSON.stringify(author));
+                        }
+                    });
+                    this.props.changeMain('Books');
+                });
         }
         else{
             if (this.state.title==='') {

@@ -9,7 +9,6 @@ class Menu extends Component {
 
     changeMainSite(e) {
         this.props.changeMain(e.target.getAttribute("index"));
-        console.log(e.target.getAttribute("index"));
     }
 
     render(){
@@ -17,7 +16,7 @@ class Menu extends Component {
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                            <a index="Welcome" href="#home" onClick={this.changeMainSite}>Library</a>
+                            <a href="#home" onClick={this.changeMainSite}>Library</a>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Navbar.Collapse>
@@ -32,8 +31,8 @@ class Menu extends Component {
                         </NavDropdown>
                     </Nav>
                     <Nav pullRight>
-                        <NavItem index="SignUp">
-                            Sign Up
+                        <NavItem index="Register">
+                            Register
                         </NavItem>
                         <NavItem index="Login">
                             Login

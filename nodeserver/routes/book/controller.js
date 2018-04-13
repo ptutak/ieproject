@@ -29,7 +29,7 @@ module.exports.create = function(req, res, next){
     const body = req.body;
     model.create(body)
         .then((book) => book.view('full'))
-        .then((book)=>{console.log(book);successJSON(res)})
+        .then(successJSON(res))
         .catch(next)
 };
 
@@ -47,7 +47,6 @@ module.exports.update = function(req, res, next){
 
 module.exports.delete = function(req, res, next){
     const id = req.params.id;
-    console.log(id);
     return model.findById(id)
         .then(notFound(res))
         .then((book) => book ? book.remove() : null)

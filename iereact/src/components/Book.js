@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Button} from 'react-bootstrap';
 import BookView from "./BookView";
 import BookEdit from "./BookEdit";
+import requestJSON from '../services/requestJSON';
 
 class Book extends Component {
 
@@ -27,38 +28,51 @@ class Book extends Component {
 
     handleUpdateClick(event){
         if (this.state.newBook) {
-            fetch('http://localhost:3001/books/'+this.state.book.id, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(this.state.newBook)
-            }).then((response) => {
-                console.log(response);
-                fetch('http://localhost:3001/books/'+this.state.book.id)
-                    .then((response)=>{return response.json()})
-                    .then(
-                        (data)=>{
-                            console.log(data);
-                            this.setState({book:data});
-                        })
-                    .then(
-                        ()=> {
-                            this.setState({editable: false});
-                        });
-            });
+            requestJSON('/books/'+this.state.book.id,'PUT',JSON.stringify(this.state.newBook))
+                .then(()=>{return requestJSON('/books/'+this.state.book.id)}
+                )
+                .then((response)=>{return response.json()})
+                .then((book)=>{
+                    if (this.state.book.author[0]!==this.state.newBook.author[0]){
+                        requestJSON('/authors/'+this.state.book.author[0])
+                            .then((response)=>{return response.json()})
+                            .then((author)=>{
+                                let ind=author.books.indexOf(this.state.book.id);
+                                if (ind>-1)
+                                    author.books.splice(ind,1);
+                                requestJSON('/authors/'+author.id,'PUT',JSON.stringify(author))});
+                        requestJSON('/authors/'+book.author[0])
+                            .then((response)=>{return response.json()})
+                            .then((author)=>{
+                                author.books.push(book.id);
+                                requestJSON('/authors/'+author.id,'PUT',JSON.stringify(author))});
+                    }
+                    this.setState({book:book});
+                })
+                .then(()=>{
+                    this.setState({editable:false});
+                    this.forceUpdate();
+                });
         }
         event.preventDefault();
     }
 
     handleDeleteClick(event){
+        event.preventDefault();
         fetch('http://localhost:3001/books/'+this.state.book.id,{
             method:'DELETE',
             body:JSON.stringify(this.state.book.id)
-        }).then((response)=>{console.log(response);this.props.refreshOnDelete()});
-
-        event.preventDefault();
+        })
+            .then(()=>{
+                requestJSON('/authors/'+this.state.book.author[0])
+                    .then((response)=>{return response.json()})
+                    .then((author)=>{
+                        let ind=author.books.indexOf(this.state.book.id);
+                        if (ind>-1)
+                            author.books.splice(ind,1);
+                        requestJSON('/authors/'+author.id,'PUT',JSON.stringify(author))});
+            })
+            .then(()=>{this.props.refreshOnDelete()});
     }
 
     setNewBook(book){

@@ -9,12 +9,7 @@ class Books extends Component {
         this.state={books:null};
         this.getBooks=this.getBooks.bind(this);
         this.getBooks();
-        this.refreshOnDelete=this.refreshOnDelete.bind(this);
         this.renderBooks=this.renderBooks.bind(this);
-    }
-
-    refreshOnDelete(){
-        this.getBooks();
     }
 
     getBooks(){
@@ -23,15 +18,17 @@ class Books extends Component {
             headers:{
                 'Content-Type':'application/json'
             }
-        }).then((response)=>{return response.json()}).then((data)=>{
-            this.setState({books:data});
         })
+            .then((response)=>{return response.json()})
+            .then((data)=>{
+            this.setState({books:data});})
+            .then(()=>{this.forceUpdate();});
     }
 
     renderBooks(){
         if (this.state.books){
             return this.state.books.map((book,index)=>{
-                return <ListGroupItem key={index}><Book book={book} refreshOnDelete={this.refreshOnDelete}/></ListGroupItem>
+                return <ListGroupItem key={index}><Book book={book} refreshOnDelete={this.getBooks}/></ListGroupItem>
             });
         }
     }

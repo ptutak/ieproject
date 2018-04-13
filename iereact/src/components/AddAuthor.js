@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import UploadImage from "./UploadImage";
 import {ListGroup, ListGroupItem, Image, Table, Button} from 'react-bootstrap';
+import requestJSON from '../services/requestJSON';
 
 export default class AddAuthor extends Component{
     constructor(props){
@@ -10,7 +11,7 @@ export default class AddAuthor extends Component{
         this.handleDateInput=this.handleDateInput.bind(this);
         this.handleFirstNameInput=this.handleFirstNameInput.bind(this);
         this.handleLastNameInput=this.handleLastNameInput.bind(this);
-        this.handleAddBook=this.handleAddBook.bind(this);
+        this.handleAddAuthor=this.handleAddAuthor.bind(this);
         this.getProperImage=this.getProperImage.bind(this);
     }
 
@@ -59,23 +60,15 @@ export default class AddAuthor extends Component{
     }
 
 
-    handleAddBook(event){
+    handleAddAuthor(event){
         if (this.state.firstName!=='' && this.state.lastName!=='' && this.state.dateOfBirth){
-            fetch('http://localhost:3001/authors/', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    first_name: this.state.firstName,
-                    last_name:this.state.lastName,
-                    date_of_birth: new Date(this.state.dateOfBirth.toString()),
-                    books:[],
-                    imageURL:this.state.imageURL
-                })
-            }).then(
-                (response)=>{return response.json().then((response)=>{console.log(response);this.props.changeMain('Authors');})})
+            requestJSON('/authors/','POST',JSON.stringify({
+                first_name: this.state.firstName,
+                last_name:this.state.lastName,
+                date_of_birth: new Date(this.state.dateOfBirth.toString()),
+                books:[],
+                imageURL:this.state.imageURL
+            })).then(this.props.changeMain('Authors'));
         }
         else{
             if (this.state.firstName==='') {
@@ -88,7 +81,6 @@ export default class AddAuthor extends Component{
             if (!this.state.dateOfBirth){
                 this.setState({dateState:'danger'});
             }
-            console.log(this.state.dateOfBirth);
         }
         event.preventDefault();
     }
@@ -123,7 +115,7 @@ export default class AddAuthor extends Component{
                     </tr>
                     </tbody>
                 </Table>
-                <Button onClick={this.handleAddBook}>Add Author</Button>
+                <Button onClick={this.handleAddAuthor}>Add Author</Button>
             </div>
         );
     }

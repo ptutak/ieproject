@@ -1,7 +1,6 @@
 module.exports.successJSON = function(res, status) {
     return (entity) => {
         if (entity) {
-            console.log(entity);
             res.status(status || 200).json(entity);
         }
         return null

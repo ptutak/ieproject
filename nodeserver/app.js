@@ -5,7 +5,7 @@ const favicon = require('serve-favicon');
 //const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-//const fileUpload = require('express-fileupload');
+const fileUpload = require('express-fileupload');
 const cors = require('cors');
 
 const index = require('./routes/index');
@@ -34,7 +34,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(cookieParser());
-//app.use(fileUpload());
+app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
