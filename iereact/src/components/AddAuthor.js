@@ -74,7 +74,8 @@ export default class AddAuthor extends Component{
                     books:[],
                     imageURL:this.state.imageURL
                 })
-            }).then((response)=>{console.log(response);this.props.changeMain('Authors');})
+            }).then(
+                (response)=>{return response.json().then((response)=>{console.log(response);this.props.changeMain('Authors');})})
         }
         else{
             if (this.state.firstName==='') {

@@ -81,6 +81,7 @@ export default class AddBook extends Component{
 
                 })
             }).then((response)=>{console.log(response);
+
             let author;
             for (author in this.state.authors){
                 if (author.id===this.state.author)
@@ -95,6 +96,7 @@ export default class AddBook extends Component{
                 },
                 body: JSON.stringify(author)
             })
+
             this.props.changeMain('Books');})
         }
         else{
