@@ -13,7 +13,7 @@ class Main extends Component {
             case "Welcome":
                 return <Welcome/>;
             case "AddAuthor":
-                return <AddAuthor/>;
+                return <AddAuthor changeMain={this.props.changeMain}/>;
             case "Authors":
                 return <Authors/>;
             case "AddBook":

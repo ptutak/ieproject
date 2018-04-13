@@ -11,6 +11,15 @@ router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.delete('/:id', controller.delete);
 
-
+/*
+// Other examples - not necessary but can upgrade your mark
+router.get('/search/name/:name', searchByName)
+router.get('/search/height/:min/:max', searchByHeight)
+router.get('/search/birthday/:min/:max', searchByBirthday)
+router.get('/count', count)
+router.get('/list', listcount)
+router.get('/index/:limit?/:skip?', paginatedIndex)
+router.get('/:id/movies', moviesByActor)
+*/
 
 module.exports=router;

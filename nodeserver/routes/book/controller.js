@@ -20,7 +20,7 @@ module.exports.index = function(req, res, next) {
 module.exports.show = function(req, res, next){
     const id = req.params.id;
     return model.findById(id).exec()
-        .then((actor) => actor ? actor.view('full') : null)
+        .then((book) => book ? book.view('full') : null)
         .then(successJSON(res))
         .catch(notFound(res))
 };
@@ -28,8 +28,8 @@ module.exports.show = function(req, res, next){
 module.exports.create = function(req, res, next){
     const body = req.body;
     model.create(body)
-        .then((actor) => actor.view('full'))
-        .then(successJSON(res))
+        .then((book) => book.view('full'))
+        .then((book)=>{console.log(book);successJSON(res)})
         .catch(next)
 };
 
@@ -39,8 +39,8 @@ module.exports.update = function(req, res, next){
 
     return model.findById(id)
         .then(notFound(res))
-        .then((actor) => actor ? Object.assign(actor, body).save() : null)
-        .then((actor) => actor ? actor.view('full') : null)
+        .then((book) => book ? Object.assign(book, body).save() : null)
+        .then((book) => book ? book.view('full') : null)
         .then(successJSON(res))
         .catch(next)
 };
@@ -50,7 +50,7 @@ module.exports.delete = function(req, res, next){
     console.log(id);
     return model.findById(id)
         .then(notFound(res))
-        .then((actor) => actor ? actor.remove() : null)
+        .then((book) => book ? book.remove() : null)
         .then(successJSON(res, 204))
         .catch(next)
 };
@@ -62,10 +62,10 @@ module.exports.searchByName = function(req, res, next){
     const name = req.params.name;
 
     model.findOne({ "name" : { $regex: new RegExp(`${name}`, 'i') } },
-        function (err, actor) {
-            if (!actor)
-                return notFound(res)(actor);
-            successJSON(res)(actor.view())
+        function (err, book) {
+            if (!book)
+                return notFound(res)(book);
+            successJSON(res)(book.view())
         })
 };
 
@@ -76,10 +76,10 @@ module.exports.searchByHeight = function(req, res, next){
     model.find({
             'height' : { $lte :  max, $gte :  min},
         },
-        function (err, actor) {
-            if (!actor)
-                return notFound(res)(actor);
-            successJSON(res)(actor)
+        function (err, book) {
+            if (!book)
+                return notFound(res)(book);
+            successJSON(res)(book)
         })
 };
 
@@ -91,7 +91,7 @@ module.exports.searchByBirthday = function(req, res, next){
     model.find({
         'birthday' : { $lte :  max, $gte :  min},
     })
-        .then((model) => model.map((actor) => actor.view('full')))
+        .then((model) => model.map((book) => book.view('full')))
         .then(successJSON(res))
         .catch(next)
 };
@@ -106,7 +106,7 @@ module.exports.count = function(req, res, next){
 module.exports.listcount = function(req, res, next){
     Promise.all([
         model.find({})
-            .then((model) => model.map((actor) => actor.view())),
+            .then((model) => model.map((book) => book.view())),
         model.count({})
     ]).then(([list, count]) => successJSON(res)({list: list, count: count})).catch(next)
 };
@@ -120,7 +120,7 @@ module.exports.paginatedIndex = function(req, res, next){
         .limit(limit)
         .skip(skip)
         .sort({birthday: -1})
-        .then((model) => model.map((actor) => actor.view('full')))
+        .then((model) => model.map((book) => book.view('full')))
         .then(successJSON(res))
         .catch(next)
 

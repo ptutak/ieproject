@@ -17,6 +17,10 @@ const AuthorSchema = new mongoose.Schema({
     books:{
       type: [mongoose.Schema.Types.ObjectId],
         ref:'BookSchema'
+    },
+    imageURL:{
+        type:String,
+        trim:true
     }
 });
 AuthorSchema.methods = {
@@ -25,14 +29,17 @@ AuthorSchema.methods = {
             case 'list':
                 return {
                     id: this.id,
-                    first_name: this.first_name
+                    first_name: this.first_name,
+                    last_name:this.last_name
                 };
             default:
                 return {
                     id: this.id,
                     first_name: this.first_name,
                     last_name:this.last_name,
-                    date_of_birth:this.date_of_birth
+                    date_of_birth:this.date_of_birth,
+                    books:this.books,
+                    imageURL:this.imageURL
                 }
         }
     }

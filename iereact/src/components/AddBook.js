@@ -80,7 +80,22 @@ export default class AddBook extends Component{
                     imageURL:this.state.imageURL
 
                 })
-            }).then((response)=>{console.log(response);this.props.changeMain('Books');})
+            }).then((response)=>{console.log(response);
+            let author;
+            for (author in this.state.authors){
+                if (author.id===this.state.author)
+                    break;
+            }
+            author.books.push()
+            fetch('http://localhost:3001/authors/'+this.state.author.toString(),{
+                method:'PUT',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(author)
+            })
+            this.props.changeMain('Books');})
         }
         else{
             if (this.state.title==='') {
