@@ -13,7 +13,6 @@ module.exports.index = function(req, res, next) {
         .then(
             successJSON(res)
         ).catch(next);
-
 };
 
 
@@ -36,7 +35,6 @@ module.exports.create = function(req, res, next){
 module.exports.update = function(req, res, next){
     const id = req.params.id;
     const body = req.body;
-
     return model.findById(id)
         .then(notFound(res))
         .then((author) => author ? Object.assign(author, body).save() : null)
@@ -44,6 +42,43 @@ module.exports.update = function(req, res, next){
         .then(successJSON(res))
         .catch(next)
 };
+
+module.exports.addBook = function(req,res,next){
+  const id = req.params.id;
+  const bookId=req.params.book;
+  return model.findById(id)
+      .then(notFound(res))
+      .then((author)=>{
+          if (author){
+              author.books.push(bookId);
+              author.save();
+              return author;
+          }
+          return null;
+      })
+      .then((author) => author ? author.view() : null)
+      .then(successJSON(res))
+      .catch(next);
+};
+
+module.exports.removeBook = function(req,res,next){
+    const id = req.params.id;
+    const bookId=req.params.book;
+    return model.findById(id)
+        .then(notFound(res))
+        .then((author)=>{
+            if (author){
+                author.books.pull(bookId);
+                author.save();
+                return author;
+            }
+            return null;
+        })
+        .then((author) => author ? author.view() : null)
+        .then(successJSON(res))
+        .catch(next);
+};
+
 
 module.exports.delete = function(req, res, next){
     const id = req.params.id;
@@ -61,10 +96,10 @@ module.exports.searchByName = function(req, res, next){
     const name = req.params.name;
 
     model.findOne({ "name" : { $regex: new RegExp(`${name}`, 'i') } },
-        function (err, author) {
-            if (!author)
-                return notFound(res)(author);
-            successJSON(res)(author.view())
+        function (err, authors) {
+            if (!authors)
+                return notFound(res)(authors);
+            successJSON(res)(authors.view())
         })
 };
 
@@ -75,10 +110,10 @@ module.exports.searchByHeight = function(req, res, next){
     model.find({
             'height' : { $lte :  max, $gte :  min},
         },
-        function (err, author) {
-            if (!author)
-                return notFound(res)(author);
-            successJSON(res)(author)
+        function (err, authors) {
+            if (!authors)
+                return notFound(res)(authors);
+            successJSON(res)(authors)
         })
 };
 
@@ -90,7 +125,7 @@ module.exports.searchByBirthday = function(req, res, next){
     model.find({
         'birthday' : { $lte :  max, $gte :  min},
     })
-        .then((model) => model.map((author) => author.view('full')))
+        .then((model) => model.map((authors) => authors.view('full')))
         .then(successJSON(res))
         .catch(next)
 };
@@ -105,7 +140,7 @@ module.exports.count = function(req, res, next){
 module.exports.listcount = function(req, res, next){
     Promise.all([
         model.find({})
-            .then((model) => model.map((author) => author.view())),
+            .then((model) => model.map((authors) => authors.view())),
         model.count({})
     ]).then(([list, count]) => successJSON(res)({list: list, count: count})).catch(next)
 };
@@ -119,7 +154,7 @@ module.exports.paginatedIndex = function(req, res, next){
         .limit(limit)
         .skip(skip)
         .sort({birthday: -1})
-        .then((model) => model.map((author) => author.view('full')))
+        .then((model) => model.map((authors) => authors.view('full')))
         .then(successJSON(res))
         .catch(next)
 

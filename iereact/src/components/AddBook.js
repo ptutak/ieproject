@@ -6,7 +6,7 @@ import requestJSON from '../services/requestJSON';
 export default class AddBook extends Component{
     constructor(props){
         super(props);
-        this.state={title :'',author:'',year:null, imageURL:null,authors:[''],yearState:null, titleState:null};
+        this.state={title :'',authors:[],year:null, imageURL:null,allAuthors:[''],yearState:null, titleState:null};
         this.setImageUrl=this.setImageUrl.bind(this);
         this.getAuthors=this.getAuthors.bind(this);
         this.getAuthors();
@@ -15,7 +15,11 @@ export default class AddBook extends Component{
         this.handleAuthorSelect=this.handleAuthorSelect.bind(this);
         this.handleTitleInput=this.handleTitleInput.bind(this);
         this.handleAddBook=this.handleAddBook.bind(this);
+        this.handleAuthorDelete=this.handleAuthorDelete.bind(this);
+        this.handleAuthorAdd=this.handleAuthorAdd.bind(this);
         this.getProperImage=this.getProperImage.bind(this);
+        this.renderAuthorsList=this.renderAuthorsList.bind(this);
+        this.renderAuthorAdd=this.renderAuthorAdd.bind(this);
     }
 
     setImageUrl(url){
@@ -31,17 +35,39 @@ export default class AddBook extends Component{
 
     getAuthors(){
         fetch('http://localhost:3001/authors/').then((response)=>{return response.json()})
-            .then((data)=>{this.setState({authors:data, author:data[0].id}) })
+            .then((data)=>{this.setState({allAuthors:data, authors:[data[0].id]}) })
     }
 
     getOptions(){
         return (
-            this.state.authors.map((author,i)=>{return <option value={author.id} key={i}>{author.first_name +' '+ author.last_name}</option>})
+            this.state.allAuthors.map((author, i)=>{
+                return <option value={author.id} key={i}>{author.first_name +' '+ author.last_name}</option>}
+                )
         )
     }
 
-    handleAuthorSelect(event){
-        this.setState({author:event.target.value});
+    handleAuthorSelect(index){
+        return (event)=>{
+            let authors=this.state.authors;
+            authors[index]=event.target.value;
+            this.setState({authors:authors});
+            event.preventDefault();
+        };
+    }
+
+    handleAuthorDelete(index){
+        return (event)=>{
+            let authors=this.state.authors;
+            authors.splice(index,1);
+            this.setState({authors:authors});
+            event.preventDefault();
+        }
+    }
+
+    handleAuthorAdd(event){
+        let authors=this.state.authors;
+        authors.push(this.state.allAuthors[0].id);
+        this.setState({authors:authors});
         event.preventDefault();
     }
 
@@ -67,37 +93,59 @@ export default class AddBook extends Component{
 
 
     handleAddBook(event){
-        if (this.state.title!=='' && this.state.year>0 && this.state.year<2019){
-            let bookid;
-            requestJSON('/books/','POST',JSON.stringify({
-                title: this.state.title,
-                year: new Date(this.state.year.toString()),
-                author:this.state.author,
-                imageURL:this.state.imageURL
-            }))
-                .then((response)=>{return response.json()})
-                .then((body)=>{
-                    bookid=body.id;
-                    this.state.authors.forEach((author,index)=>{
-                        if (author.id===this.state.author) {
-                            author.books.push(bookid);
-                            requestJSON('/authors/' + author.id.toString(), 'PUT', JSON.stringify(author));
-                        }
+        let set=new Set(this.state.authors);
+        this.setState({authors:Array.from(set)},()=>{
+            if (this.state.title!=='' && this.state.year>0 && this.state.year<2019){
+                requestJSON('/books/','POST',JSON.stringify({
+                    title: this.state.title,
+                    year: new Date(this.state.year.toString()),
+                    authors:this.state.authors,
+                    imageURL:this.state.imageURL
+                }))
+                    .then((response)=>{console.log(response);return response.json()})
+                    .then((body)=>{
+                        let bookid=body.id;
+                        this.state.authors.forEach((author, index)=>{
+                            requestJSON('/authors/add/' + author.toString()+'/'+bookid.toString(), 'GET');
+                        });
+                        this.props.changeMain('Books');
                     });
-                    this.props.changeMain('Books');
-                });
-        }
-        else{
-            if (this.state.title==='') {
-                this.setState({titleState: 'danger'});
             }
-            if (this.state.year<=0 || this.state.year>=2019){
-                this.setState({yearState:'danger'});
+            else{
+                if (this.state.title==='') {
+                    this.setState({titleState: 'danger'});
+                }
+                if (this.state.year<=0 || this.state.year>=2019){
+                    this.setState({yearState:'danger'});
+                }
             }
-
-        }
-
+        });
         event.preventDefault();
+    }
+
+    renderAuthorAdd(){
+        return(
+            <tr>
+                <td>
+                    <Button onClick={this.handleAuthorAdd}>Add New Author</Button>
+                </td>
+            </tr>
+        )
+    }
+
+    renderAuthorsList(){
+        return this.state.authors.map((author,index)=>{
+            return (
+                <tr key={index}>
+                    <td>
+                        <select onChange={this.handleAuthorSelect(index)} value={this.state.authors[index]}>{this.getOptions()}</select>
+                    </td>
+                    <td>
+                        <Button onClick={this.handleAuthorDelete(index)}>Delete</Button>
+                    </td>
+                </tr>
+            )
+        });
     }
 
 
@@ -117,7 +165,12 @@ export default class AddBook extends Component{
                                 Title:<input type="text" onChange={this.handleTitleInput} value={this.state.title}/>
                             </ListGroupItem>
                             <ListGroupItem>
-                                Author:<select onChange={this.handleAuthorSelect} value={this.state.author}>{this.getOptions()}</select>
+                                <Table striped bordered condensed>
+                                    <tbody>
+                                        {this.renderAuthorsList()}
+                                        {this.renderAuthorAdd()}
+                                    </tbody>
+                                </Table>
                             </ListGroupItem>
                             <ListGroupItem bsStyle={this.state.yearState}>
                                 Year:<input type="text" onChange={this.handleYearInput}/>

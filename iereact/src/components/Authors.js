@@ -25,8 +25,8 @@ export default class Authors extends Component{
     }
 
     renderAuthors(){
-        if (this.state.authors){
-            return this.state.authors.map((author,index)=>{
+        if (this.state.allAuthors){
+            return this.state.allAuthors.map((author, index)=>{
                 return <ListGroupItem key={index}><Author author={author} refreshOnDelete={this.getAuthors}/></ListGroupItem>
             });
         }

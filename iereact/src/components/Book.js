@@ -33,15 +33,15 @@ class Book extends Component {
                 )
                 .then((response)=>{return response.json()})
                 .then((book)=>{
-                    if (this.state.book.author[0]!==this.state.newBook.author[0]){
-                        requestJSON('/authors/'+this.state.book.author[0])
+                    if (this.state.book.authors[0]!==this.state.newBook.authors[0]){
+                        requestJSON('/authors/'+this.state.book.authors[0])
                             .then((response)=>{return response.json()})
                             .then((author)=>{
                                 let ind=author.books.indexOf(this.state.book.id);
                                 if (ind>-1)
                                     author.books.splice(ind,1);
                                 requestJSON('/authors/'+author.id,'PUT',JSON.stringify(author))});
-                        requestJSON('/authors/'+book.author[0])
+                        requestJSON('/authors/'+book.authors[0])
                             .then((response)=>{return response.json()})
                             .then((author)=>{
                                 author.books.push(book.id);
@@ -64,7 +64,7 @@ class Book extends Component {
             body:JSON.stringify(this.state.book.id)
         })
             .then(()=>{
-                requestJSON('/authors/'+this.state.book.author[0])
+                requestJSON('/authors/'+this.state.book.authors[0])
                     .then((response)=>{return response.json()})
                     .then((author)=>{
                         let ind=author.books.indexOf(this.state.book.id);

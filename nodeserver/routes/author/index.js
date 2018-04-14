@@ -10,6 +10,9 @@ router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.delete('/:id', controller.delete);
+router.get('/add/book/:id/:book',controller.addBook);
+router.get('/remove/book/:id/:book',controller.removeBook);
+
 
 /*
 // Other examples - not necessary but can upgrade your mark

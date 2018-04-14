@@ -7,10 +7,10 @@ export default class BookEdit extends Component{
         super(props);
         this.state={
             title:this.props.book.title,
-            author:this.props.book.author[0],
+            authors:this.props.book.authors,
             year:new Date(this.props.book.year).getFullYear().toString(),
             imageURL:this.props.book.imageURL,
-            authors:[],
+            allAuthors:[],
             yearState:null,
             titleState:null
         };
@@ -28,7 +28,7 @@ export default class BookEdit extends Component{
         this.setState({imageURL:url});
         this.props.setNewBook({
             title:this.state.title,
-            author:[this.state.author],
+            authors:this.state.authors,
             year:new Date(this.state.year.toString()),
             imageURL:url
         });
@@ -44,20 +44,20 @@ export default class BookEdit extends Component{
     getAuthors(){
         fetch('http://localhost:3001/authors/')
             .then((response)=>{return response.json()})
-            .then((data)=>{this.setState({authors:data})})
+            .then((data)=>{this.setState({allAuthors:data})})
     }
 
     getOptions(){
         return (
-            this.state.authors.map((author,i)=>{return <option value={author.id} key={i}>{author.first_name +' '+ author.last_name}</option>})
+            this.state.allAuthors.map((author, i)=>{return <option value={author.id} key={i}>{author.first_name +' '+ author.last_name}</option>})
         )
     }
 
     handleAuthorSelect(event){
-        this.setState({author:event.target.value});
+        this.setState({authors:event.target.value});
         this.props.setNewBook({
             title:this.state.title,
-            author:[event.target.value],
+            authors:[event.target.value],
             year:new Date(this.state.year.toString()),
             imageURL:this.state.imageURL
         });
@@ -70,7 +70,7 @@ export default class BookEdit extends Component{
             this.setState({titleState: null});
             this.props.setNewBook({
                 title:event.target.value,
-                author:[this.state.author],
+                authors:[this.state.authors],
                 year:new Date(this.state.year.toString()),
                 imageURL:this.state.imageURL
             });
@@ -89,7 +89,7 @@ export default class BookEdit extends Component{
                 this.setState({yearState: null});
                 this.props.setNewBook({
                     title: this.state.title,
-                    author: [this.state.author],
+                    authors: [this.state.authors],
                     year: new Date(year.toString()),
                     imageURL: this.state.imageURL
                 });
@@ -116,7 +116,7 @@ export default class BookEdit extends Component{
                                     Title:<input type="text" onChange={this.handleTitleInput} value={this.state.title}/>
                                 </ListGroupItem>
                                 <ListGroupItem>
-                                    Author:<select onChange={this.handleAuthorSelect} value={this.state.author}>{this.getOptions()}</select>
+                                    Author:<select onChange={this.handleAuthorSelect} value={this.state.authors}>{this.getOptions()}</select>
                                 </ListGroupItem>
                                 <ListGroupItem bsStyle={this.state.yearState}>
                                     Year:<input type="number" onChange={this.handleYearInput} value={this.state.year}/>

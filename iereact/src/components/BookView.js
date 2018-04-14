@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Table,Image, ListGroup, ListGroupItem} from 'react-bootstrap';
+import requestJSON from '../services/requestJSON';
 
 export default class BookView extends Component {
 
@@ -7,13 +8,13 @@ export default class BookView extends Component {
         super(props);
         this.state={
             book:this.props.book,
-            author:null
+            authors:[]
         };
         this.setImageUrl=this.setImageUrl.bind(this);
         this.getProperImage=this.getProperImage.bind(this);
-        this.getAuthor=this.getAuthor.bind(this);
-        this.getAuthor();
-        this.renderAuthor=this.renderAuthor.bind(this);
+        this.getAuthors=this.getAuthors.bind(this);
+        this.getAuthors();
+        this.renderAuthors=this.renderAuthors.bind(this);
     }
     setImageUrl(url){
         this.setState({imageURL:url});
@@ -26,17 +27,33 @@ export default class BookView extends Component {
             return <Image src={require('../images/noimage.png')} style={{height:'240px'}}/>;
 
     }
-    getAuthor(){
-        fetch('http://localhost:3001/authors/'+this.state.book.author[0]).then((response)=>{return response.json()}).then((data)=>{
-            this.setState({author:data});
-        })
+    getAuthors(){
+        let authors=[];
+        let processed=0;
+        this.state.book.authors.forEach((author,index)=>{
+            requestJSON('/authors/'+author.toString())
+                .then((response)=>{return response.json()})
+                .then((data)=>{
+                    authors.push(data);
+                    processed++;
+                    if (processed===this.state.book.authors.length){
+                        this.setState({authors:authors});
+                    }
+                })
+        });
+
+
     }
-    renderAuthor(){
-        if (this.state.author!==null)
-            return (
-                this.state.author.first_name+' '+this.state.author.last_name
-            );
-        return null;
+    renderAuthors(){
+        return this.state.authors.map((author,index)=>{
+            return(
+                <tr key={index}>
+                    <td>
+                        {author.first_name + ' '+author.last_name}
+                    </td>
+                </tr>
+            )
+        });
     }
     render() {
         return (
@@ -50,7 +67,12 @@ export default class BookView extends Component {
                                     Title:{this.state.book.title}
                                 </ListGroupItem>
                                 <ListGroupItem>
-                                    Author:{this.renderAuthor()}
+                                    Authors:
+                                    <Table condensed>
+                                        <tbody>
+                                            {this.renderAuthors()}
+                                        </tbody>
+                                    </Table>
                                 </ListGroupItem>
                                 <ListGroupItem>
                                     Year:{new Date(this.state.book.year).getFullYear()}

@@ -15,7 +15,7 @@ var BookSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
-    author: {
+    authors: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'AuthorSchema'
     },
@@ -38,7 +38,7 @@ BookSchema.methods = {
                 return {
                     id: this.id,
                     title: this.title,
-                    author: this.author,
+                    authors: this.authors,
                     year: this.year
                 };
         }

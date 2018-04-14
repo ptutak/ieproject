@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
     request({
         url:'http://localhost:3001/books/',
         method:'POST',
-        json:{title:title,year:year,author:[null]}
+        json:{title:title,year:year,authors:[null]}
     },(err, resp, body)=>{
         console.log('error:',err);
         console.log('body:',body);
