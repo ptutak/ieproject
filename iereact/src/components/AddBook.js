@@ -165,6 +165,7 @@ export default class AddBook extends Component{
                                 Title:<input type="text" onChange={this.handleTitleInput} value={this.state.title}/>
                             </ListGroupItem>
                             <ListGroupItem>
+                                Authors:
                                 <Table striped bordered condensed>
                                     <tbody>
                                         {this.renderAuthorsList()}

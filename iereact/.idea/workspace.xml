@@ -3,18 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="3a1a4a23-ecf3-4788-8e7f-882b7cc7bc69" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddAuthor.js" afterPath="$PROJECT_DIR$/src/components/AddAuthor.js" />
       <change beforePath="$PROJECT_DIR$/src/components/AddBook.js" afterPath="$PROJECT_DIR$/src/components/AddBook.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/Authors.js" afterPath="$PROJECT_DIR$/src/components/Authors.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/Book.js" afterPath="$PROJECT_DIR$/src/components/Book.js" />
-      <change beforePath="$PROJECT_DIR$/src/components/BookEdit.js" afterPath="$PROJECT_DIR$/src/components/BookEdit.js" />
       <change beforePath="$PROJECT_DIR$/src/components/BookView.js" afterPath="$PROJECT_DIR$/src/components/BookView.js" />
       <change beforePath="$PROJECT_DIR$/../nodeserver/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../nodeserver/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/dist/lib/routes/book/model.js" afterPath="$PROJECT_DIR$/../nodeserver/dist/lib/routes/book/model.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/author/controller.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/author/controller.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/author/index.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/author/index.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/book/model.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/book/model.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/bookstest.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/bookstest.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -31,8 +22,8 @@
       <file leaf-file-name="AddBook.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/AddBook.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2052">
-              <caret line="108" column="106" lean-forward="false" selection-start-line="108" selection-start-column="106" selection-end-line="108" selection-end-column="106" />
+            <state relative-caret-position="437">
+              <caret line="167" column="32" lean-forward="false" selection-start-line="167" selection-start-column="32" selection-end-line="167" selection-end-column="32" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -47,7 +38,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Book.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Book.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/Book.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="589">
@@ -59,10 +50,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BookView.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BookView.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/BookView.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
+            <state relative-caret-position="387">
               <caret line="64" column="38" lean-forward="false" selection-start-line="64" selection-start-column="38" selection-end-line="64" selection-end-column="38" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -173,10 +164,10 @@
         <option value="$PROJECT_DIR$/src/components/Menu.js" />
         <option value="$PROJECT_DIR$/src/components/Author.js" />
         <option value="$PROJECT_DIR$/src/components/Authors.js" />
-        <option value="$PROJECT_DIR$/src/components/AddBook.js" />
-        <option value="$PROJECT_DIR$/src/components/BookView.js" />
         <option value="$PROJECT_DIR$/src/components/BookEdit.js" />
         <option value="$PROJECT_DIR$/src/components/Book.js" />
+        <option value="$PROJECT_DIR$/src/components/AddBook.js" />
+        <option value="$PROJECT_DIR$/src/components/BookView.js" />
       </list>
     </option>
   </component>
@@ -320,12 +311,12 @@
       <workItem from="1523607829314" duration="5163000" />
       <workItem from="1523616732057" duration="1489000" />
       <workItem from="1523621489155" duration="8363000" />
-      <workItem from="1523688823749" duration="8474000" />
+      <workItem from="1523688823749" duration="9664000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103592000" />
+    <option name="totallyTimeSpent" value="104782000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -692,31 +683,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AddBook.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2052">
-          <caret line="108" column="106" lean-forward="false" selection-start-line="108" selection-start-column="106" selection-end-line="108" selection-end-column="106" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Books.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="247">
           <caret line="15" column="32" lean-forward="false" selection-start-line="15" selection-start-column="32" selection-end-line="15" selection-end-column="32" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/BookView.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="64" column="38" lean-forward="false" selection-start-line="64" selection-start-column="38" selection-end-line="64" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -732,6 +703,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="589">
           <caret line="46" column="31" lean-forward="true" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AddBook.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="167" column="32" lean-forward="false" selection-start-line="167" selection-start-column="32" selection-end-line="167" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/BookView.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="64" column="38" lean-forward="false" selection-start-line="64" selection-start-column="38" selection-end-line="64" selection-end-column="38" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

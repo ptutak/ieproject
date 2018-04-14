@@ -64,18 +64,18 @@ export default class BookView extends Component {
                         <td style={{width:'50%'}}>
                             <ListGroup>
                                 <ListGroupItem>
-                                    Title:{this.state.book.title}
+                                    Title: {this.state.book.title}
                                 </ListGroupItem>
-                                <ListGroupItem>
+                                <ListGroupItem >
                                     Authors:
-                                    <Table condensed>
+                                    <Table condensed bordered>
                                         <tbody>
                                             {this.renderAuthors()}
                                         </tbody>
                                     </Table>
                                 </ListGroupItem>
                                 <ListGroupItem>
-                                    Year:{new Date(this.state.book.year).getFullYear()}
+                                    Year: {new Date(this.state.book.year).getFullYear()}
                                 </ListGroupItem>
                             </ListGroup>
                         </td>
