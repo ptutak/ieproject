@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import UploadImage from "./UploadImage";
-import {ListGroup, ListGroupItem, Image, Table} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Image, Table, Button} from 'react-bootstrap';
 
 export default class BookEdit extends Component{
     constructor(props){
@@ -10,9 +10,9 @@ export default class BookEdit extends Component{
             authors:this.props.book.authors,
             year:new Date(this.props.book.year).getFullYear().toString(),
             imageURL:this.props.book.imageURL,
-            allAuthors:[],
             yearState:null,
-            titleState:null
+            titleState:null,
+            allAuthors:[]
         };
         this.setImageUrl=this.setImageUrl.bind(this);
         this.getAuthors=this.getAuthors.bind(this);
@@ -22,6 +22,10 @@ export default class BookEdit extends Component{
         this.handleAuthorSelect=this.handleAuthorSelect.bind(this);
         this.handleTitleInput=this.handleTitleInput.bind(this);
         this.getProperImage=this.getProperImage.bind(this);
+        this.handleAuthorDelete=this.handleAuthorDelete.bind(this);
+        this.handleAuthorAdd=this.handleAuthorAdd.bind(this);
+        this.renderAuthorsList=this.renderAuthorsList.bind(this);
+        this.renderAuthorAdd=this.renderAuthorAdd.bind(this);
     }
 
     setImageUrl(url){
@@ -41,6 +45,50 @@ export default class BookEdit extends Component{
             return <Image src={this.state.imageURL} style={{height:'240px'}}/>;
     }
 
+    handleAuthorSelect(index){
+        return (event)=>{
+            let authors=this.state.authors;
+            authors[index]=event.target.value;
+            this.setState({authors:authors});
+            this.props.setNewBook({
+                title:this.state.title,
+                authors:authors,
+                year:new Date(this.state.year.toString()),
+                imageURL:this.state.imageURL
+            });
+            event.preventDefault();
+        };
+    }
+
+    handleAuthorDelete(index){
+        return (event)=>{
+            let authors=this.state.authors;
+            authors.splice(index,1);
+            this.setState({authors:authors});
+            this.props.setNewBook({
+                title:this.state.title,
+                authors:authors,
+                year:new Date(this.state.year.toString()),
+                imageURL:this.state.imageURL
+            });
+            event.preventDefault();
+        }
+    }
+
+    handleAuthorAdd(event){
+        let authors=this.state.authors;
+        authors.push(this.state.allAuthors[0].id);
+        this.setState({authors:authors});
+        this.props.setNewBook({
+            title:this.state.title,
+            authors:authors,
+            year:new Date(this.state.year.toString()),
+            imageURL:this.state.imageURL
+        });
+        event.preventDefault();
+    }
+
+
     getAuthors(){
         fetch('http://localhost:3001/authors/')
             .then((response)=>{return response.json()})
@@ -53,16 +101,6 @@ export default class BookEdit extends Component{
         )
     }
 
-    handleAuthorSelect(event){
-        this.setState({authors:event.target.value});
-        this.props.setNewBook({
-            title:this.state.title,
-            authors:[event.target.value],
-            year:new Date(this.state.year.toString()),
-            imageURL:this.state.imageURL
-        });
-        event.preventDefault();
-    }
 
     handleTitleInput(event){
         this.setState({title:event.target.value});
@@ -70,7 +108,7 @@ export default class BookEdit extends Component{
             this.setState({titleState: null});
             this.props.setNewBook({
                 title:event.target.value,
-                authors:[this.state.authors],
+                authors:this.state.authors,
                 year:new Date(this.state.year.toString()),
                 imageURL:this.state.imageURL
             });
@@ -89,7 +127,7 @@ export default class BookEdit extends Component{
                 this.setState({yearState: null});
                 this.props.setNewBook({
                     title: this.state.title,
-                    authors: [this.state.authors],
+                    authors: this.state.authors,
                     year: new Date(year.toString()),
                     imageURL: this.state.imageURL
                 });
@@ -104,6 +142,32 @@ export default class BookEdit extends Component{
         }
         event.preventDefault();
     }
+
+    renderAuthorAdd(){
+        return(
+            <tr>
+                <td>
+                    <Button onClick={this.handleAuthorAdd}>Add New Author</Button>
+                </td>
+            </tr>
+        )
+    }
+
+    renderAuthorsList(){
+        return this.state.authors.map((author,index)=>{
+            return (
+                <tr key={index}>
+                    <td>
+                        <select onChange={this.handleAuthorSelect(index)} value={this.state.authors[index]}>{this.getOptions()}</select>
+                    </td>
+                    <td>
+                        <Button onClick={this.handleAuthorDelete(index)}>Delete</Button>
+                    </td>
+                </tr>
+            )
+        });
+    }
+
     render() {
         return (
             <div >
@@ -116,10 +180,16 @@ export default class BookEdit extends Component{
                                     Title:<input type="text" onChange={this.handleTitleInput} value={this.state.title}/>
                                 </ListGroupItem>
                                 <ListGroupItem>
-                                    Author:<select onChange={this.handleAuthorSelect} value={this.state.authors}>{this.getOptions()}</select>
+                                    Authors:
+                                    <Table striped bordered condensed>
+                                        <tbody>
+                                        {this.renderAuthorsList()}
+                                        {this.renderAuthorAdd()}
+                                        </tbody>
+                                    </Table>
                                 </ListGroupItem>
                                 <ListGroupItem bsStyle={this.state.yearState}>
-                                    Year:<input type="number" onChange={this.handleYearInput} value={this.state.year}/>
+                                    Year:<input type="text" value={this.state.year} onChange={this.handleYearInput}/>
                                 </ListGroupItem>
                                 <ListGroupItem>
                                     Upload book image:

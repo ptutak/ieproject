@@ -62,7 +62,7 @@ export default class AddAuthor extends Component{
 
     handleAddAuthor(event){
         if (this.state.firstName!=='' && this.state.lastName!=='' && this.state.dateOfBirth){
-            requestJSON('/allAuthors/','POST',JSON.stringify({
+            requestJSON('/authors/','POST',JSON.stringify({
                 first_name: this.state.firstName,
                 last_name:this.state.lastName,
                 date_of_birth: new Date(this.state.dateOfBirth.toString()),

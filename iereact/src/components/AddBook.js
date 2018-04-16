@@ -6,7 +6,15 @@ import requestJSON from '../services/requestJSON';
 export default class AddBook extends Component{
     constructor(props){
         super(props);
-        this.state={title :'',authors:[],year:null, imageURL:null,allAuthors:[''],yearState:null, titleState:null};
+        this.state={
+            title :'',
+            authors:[],
+            year:'',
+            imageURL:null,
+            allAuthors:[''],
+            yearState:null,
+            titleState:null
+        };
         this.setImageUrl=this.setImageUrl.bind(this);
         this.getAuthors=this.getAuthors.bind(this);
         this.getAuthors();
@@ -83,11 +91,19 @@ export default class AddBook extends Component{
 
     handleYearInput(event){
         let year=parseInt(event.target.value,10);
-        this.setState({year:year});
-        if (year>0 && year<2019)
-            this.setState({yearState:null});
-        else
-            this.setState({yearState:'danger'});
+        if (!isNaN(year)){
+            this.setState({year:year});
+            if (year>0 && year<2019) {
+                this.setState({yearState: null});
+            }
+            else
+                this.setState({yearState: 'danger'});
+
+        }
+        else {
+            this.setState({year:''});
+            this.setState({yearState: 'danger'});
+        }
         event.preventDefault();
     }
 
@@ -102,12 +118,12 @@ export default class AddBook extends Component{
                     authors:this.state.authors,
                     imageURL:this.state.imageURL
                 }))
-                    .then((response)=>{console.log(response);return response.json()})
+                    .then((response)=>{return response.json()})
                     .then((body)=>{
                         let bookid=body.id;
-                        this.state.authors.forEach((author, index)=>{
-                            requestJSON('/authors/add/' + author.toString()+'/'+bookid.toString(), 'GET');
-                        });
+                        for(let author of this.state.authors){
+                            requestJSON('/authors/add/book/' + author.toString()+'/'+bookid.toString());
+                        }
                         this.props.changeMain('Books');
                     });
             }
@@ -174,7 +190,7 @@ export default class AddBook extends Component{
                                 </Table>
                             </ListGroupItem>
                             <ListGroupItem bsStyle={this.state.yearState}>
-                                Year:<input type="text" onChange={this.handleYearInput}/>
+                                Year:<input type="text" value={this.state.year} onChange={this.handleYearInput}/>
                             </ListGroupItem>
                             <ListGroupItem>
                                 Upload book image:

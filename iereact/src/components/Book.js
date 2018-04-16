@@ -4,6 +4,14 @@ import BookView from "./BookView";
 import BookEdit from "./BookEdit";
 import requestJSON from '../services/requestJSON';
 
+let difference = function(setA,setB) {
+    let difference = new Set(setA);
+    for (let elem of setB) {
+        difference.delete(elem);
+    }
+    return difference;
+};
+
 class Book extends Component {
 
     constructor(props){
@@ -29,23 +37,16 @@ class Book extends Component {
     handleUpdateClick(event){
         if (this.state.newBook) {
             requestJSON('/books/'+this.state.book.id,'PUT',JSON.stringify(this.state.newBook))
-                .then(()=>{return requestJSON('/books/'+this.state.book.id)}
-                )
+                .then(()=>{return requestJSON('/books/'+this.state.book.id)})
                 .then((response)=>{return response.json()})
                 .then((book)=>{
-                    if (this.state.book.authors[0]!==this.state.newBook.authors[0]){
-                        requestJSON('/authors/'+this.state.book.authors[0])
-                            .then((response)=>{return response.json()})
-                            .then((author)=>{
-                                let ind=author.books.indexOf(this.state.book.id);
-                                if (ind>-1)
-                                    author.books.splice(ind,1);
-                                requestJSON('/authors/'+author.id,'PUT',JSON.stringify(author))});
-                        requestJSON('/authors/'+book.authors[0])
-                            .then((response)=>{return response.json()})
-                            .then((author)=>{
-                                author.books.push(book.id);
-                                requestJSON('/authors/'+author.id,'PUT',JSON.stringify(author))});
+                    let authorsToRemove=difference(this.state.book.authors,this.state.newBook.authors);
+                    let authorsToAdd=difference(this.state.newBook.authors,this.state.book.authors);
+                    for(let author of authorsToAdd){
+                        requestJSON('/authors/add/book/' + author.toString()+'/'+book.id.toString());
+                    }
+                    for(let author of authorsToRemove){
+                        requestJSON('/authors/remove/book/' + author.toString()+'/'+book.id.toString());
                     }
                     this.setState({book:book});
                 })
@@ -59,18 +60,11 @@ class Book extends Component {
 
     handleDeleteClick(event){
         event.preventDefault();
-        fetch('http://localhost:3001/books/'+this.state.book.id,{
-            method:'DELETE',
-            body:JSON.stringify(this.state.book.id)
-        })
+        requestJSON('/books/'+this.state.book.id,'DELETE')
             .then(()=>{
-                requestJSON('/authors/'+this.state.book.authors[0])
-                    .then((response)=>{return response.json()})
-                    .then((author)=>{
-                        let ind=author.books.indexOf(this.state.book.id);
-                        if (ind>-1)
-                            author.books.splice(ind,1);
-                        requestJSON('/authors/'+author.id,'PUT',JSON.stringify(author))});
+                for (let author of this.state.book.authors){
+                    requestJSON('/authors/remove/book/' + author.toString()+'/'+this.state.book.id.toString());
+                }
             })
             .then(()=>{this.props.refreshOnDelete()});
     }
