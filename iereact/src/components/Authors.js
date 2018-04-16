@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Author from './Author';
 import {ListGroup, ListGroupItem} from 'react-bootstrap';
-
+import requestJSON from '../services/requestJSON';
 export default class Authors extends Component{
     constructor(props){
         super(props);
@@ -12,24 +12,21 @@ export default class Authors extends Component{
     }
 
     getAuthors(){
-        fetch('http://localhost:3001/books/',{
-            method:'GET',
-            headers:{
-                'Content-Type':'application/json'
-            }
-        })
+        requestJSON('/authors/')
             .then((response)=>{return response.json()})
             .then((data)=>{
-                this.setState({authors:data});})
+                this.setState({authors:data})
+            })
             .then(()=>{this.forceUpdate();});
     }
 
     renderAuthors(){
-        if (this.state.allAuthors){
-            return this.state.allAuthors.map((author, index)=>{
+        if (this.state.authors){
+            return this.state.authors.map((author, index)=>{
                 return <ListGroupItem key={index}><Author author={author} refreshOnDelete={this.getAuthors}/></ListGroupItem>
             });
         }
+
     }
 
     render() {

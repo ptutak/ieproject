@@ -77,7 +77,10 @@ export default class BookEdit extends Component{
 
     handleAuthorAdd(event){
         let authors=this.state.authors;
-        authors.push(this.state.allAuthors[0].id);
+        if (this.state.authors.length>0)
+            authors.push(this.state.authors[0].id);
+        else
+            authors.push('');
         this.setState({authors:authors});
         this.props.setNewBook({
             title:this.state.title,
@@ -97,7 +100,9 @@ export default class BookEdit extends Component{
 
     getOptions(){
         return (
-            this.state.allAuthors.map((author, i)=>{return <option value={author.id} key={i}>{author.first_name +' '+ author.last_name}</option>})
+            this.state.authors.map((author, i)=>{
+                return <option value={author.id} key={i}>{author.first_name +' '+ author.last_name}</option>
+            })
         )
     }
 

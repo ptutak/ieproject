@@ -27,6 +27,7 @@ class Books extends Component {
 
     renderBooks(){
         if (this.state.books){
+            console.log(this.state.books);
             return this.state.books.map((book,index)=>{
                 return <ListGroupItem key={index}><Book book={book} refreshOnDelete={this.getBooks}/></ListGroupItem>
             });

@@ -13,7 +13,8 @@ export default class AddBook extends Component{
             imageURL:null,
             allAuthors:[''],
             yearState:null,
-            titleState:null
+            titleState:null,
+            authorState:null
         };
         this.setImageUrl=this.setImageUrl.bind(this);
         this.getAuthors=this.getAuthors.bind(this);
@@ -43,12 +44,19 @@ export default class AddBook extends Component{
 
     getAuthors(){
         fetch('http://localhost:3001/authors/').then((response)=>{return response.json()})
-            .then((data)=>{this.setState({allAuthors:data, authors:[data[0].id]}) })
+            .then((data)=>{
+                if (data.length>0){
+                    this.setState({allAuthors:data, authors:[data[0].id]})
+                }
+                else {
+                    this.setState({allAuthors:data, authors:['']})
+                }
+            })
     }
 
     getOptions(){
         return (
-            this.state.allAuthors.map((author, i)=>{
+            this.state.authors.map((author, i)=>{
                 return <option value={author.id} key={i}>{author.first_name +' '+ author.last_name}</option>}
                 )
         )
@@ -59,6 +67,10 @@ export default class AddBook extends Component{
             let authors=this.state.authors;
             authors[index]=event.target.value;
             this.setState({authors:authors});
+            if (event.target.value!=='')
+                this.setState({authorState:null});
+            else
+                this.setState({authorState:'danger'});
             event.preventDefault();
         };
     }
@@ -74,7 +86,10 @@ export default class AddBook extends Component{
 
     handleAuthorAdd(event){
         let authors=this.state.authors;
-        authors.push(this.state.allAuthors[0].id);
+        if (this.state.authors.length>0)
+            authors.push(this.state.authors[0].id);
+        else
+            authors.push('');
         this.setState({authors:authors});
         event.preventDefault();
     }
@@ -111,7 +126,7 @@ export default class AddBook extends Component{
     handleAddBook(event){
         let set=new Set(this.state.authors);
         this.setState({authors:Array.from(set)},()=>{
-            if (this.state.title!=='' && this.state.year>0 && this.state.year<2019){
+            if (this.state.title!=='' && this.state.year>0 && this.state.year<2019 && this.state.authors[0]!==''){
                 requestJSON('/books/','POST',JSON.stringify({
                     title: this.state.title,
                     year: new Date(this.state.year.toString()),
@@ -133,6 +148,9 @@ export default class AddBook extends Component{
                 }
                 if (this.state.year<=0 || this.state.year>=2019){
                     this.setState({yearState:'danger'});
+                }
+                if (this.state.authors[0]===''){
+                    this.setState({authorState:'danger'});
                 }
             }
         });
@@ -180,7 +198,7 @@ export default class AddBook extends Component{
                             <ListGroupItem bsStyle={this.state.titleState}>
                                 Title:<input type="text" onChange={this.handleTitleInput} value={this.state.title}/>
                             </ListGroupItem>
-                            <ListGroupItem>
+                            <ListGroupItem bsStyle={this.state.authorState}>
                                 Authors:
                                 <Table striped bordered condensed>
                                     <tbody>

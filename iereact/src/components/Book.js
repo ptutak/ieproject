@@ -36,6 +36,8 @@ class Book extends Component {
 
     handleUpdateClick(event){
         if (this.state.newBook) {
+            let set=new Set(this.state.newBook.authors);
+            console.log(set,set.length);
             requestJSON('/books/'+this.state.book.id,'PUT',JSON.stringify(this.state.newBook))
                 .then(()=>{return requestJSON('/books/'+this.state.book.id)})
                 .then((response)=>{return response.json()})
@@ -54,6 +56,9 @@ class Book extends Component {
                     this.setState({editable:false});
                     this.forceUpdate();
                 });
+        }
+        else {
+            this.setState({editable:false});
         }
         event.preventDefault();
     }
