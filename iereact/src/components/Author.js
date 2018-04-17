@@ -36,16 +36,28 @@ export default class Author extends Component{
 
     handleUpdateClick(event){
         if (this.state.newAuthor) {
-            requestJSON('/authors/'+this.state.author.id,'PUT',JSON.stringify(this.state.newAuthor))
-                .then(()=>{return requestJSON('/authors/'+this.state.author.id)})
-                .then((response)=>{return response.json()})
-                .then((author)=>{
-                    this.setState({author:author});
-                })
-                .then(()=>{
-                    this.setState({editable:false});
-                    this.forceUpdate();
-                });
+            let set=new Set(this.state.newAuthor.books);
+            let newAuthor=this.state.newAuthor;
+            newAuthor.books=Array.from(set);
+            this.setState({newAuthor:newAuthor},()=>{
+                requestJSON('/authors/'+this.state.author.id,'PUT',JSON.stringify(this.state.newAuthor))
+                    .then((response)=>{return response.json()})
+                    .then((author)=>{
+                        let booksToRemove=difference(this.state.author.books,this.state.newAuthor.books);
+                        let booksToAdd=difference(this.state.newAuthor.books,this.state.author.books);
+                        for(let book of booksToAdd){
+                            requestJSON('/books/add/author/' + book.toString()+'/'+author.id.toString());
+                        }
+                        for(let book of booksToRemove){
+                            requestJSON('/books/remove/author/' + book.toString()+'/'+author.id.toString());
+                        }
+                        this.setState({author:author});
+                    })
+                    .then(()=>{
+                        this.setState({editable:false});
+                        this.forceUpdate();
+                    });
+            });
         }
         else {
             this.setState({editable:false});
@@ -57,6 +69,9 @@ export default class Author extends Component{
         event.preventDefault();
         requestJSON('/authors/'+this.state.author.id,'DELETE')
             .then(()=>{
+                for (let book of this.state.author.books){
+                    requestJSON('/books/remove/author/' + book.toString()+'/'+this.state.author.id.toString());
+                }
             })
             .then(()=>{this.props.refreshOnDelete()});
     }

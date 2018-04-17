@@ -45,6 +45,42 @@ module.exports.update = function(req, res, next){
         .catch(next)
 };
 
+module.exports.addAuthor = function(req,res,next){
+    const id = req.params.id;
+    const authorId=req.params.author;
+    return model.findById(id)
+        .then(notFound(res))
+        .then((book)=>{
+            if (book){
+                book.authors.push(authorId);
+                book.save();
+                return book;
+            }
+            return null;
+        })
+        .then((book) => book ? book.view() : null)
+        .then(successJSON(res))
+        .catch(next);
+};
+
+module.exports.removeAuthor = function(req,res,next){
+    const id = req.params.id;
+    const authorId=req.params.author;
+    return model.findById(id)
+        .then(notFound(res))
+        .then((book)=>{
+            if (book){
+                book.authors.pull(authorId);
+                book.save();
+                return book;
+            }
+            return null;
+        })
+        .then((book) => book ? book.view() : null)
+        .then(successJSON(res))
+        .catch(next);
+};
+
 module.exports.delete = function(req, res, next){
     const id = req.params.id;
     return model.findById(id)

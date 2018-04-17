@@ -37,25 +37,27 @@ class Book extends Component {
     handleUpdateClick(event){
         if (this.state.newBook) {
             let set=new Set(this.state.newBook.authors);
-            console.log(set,set.length);
-            requestJSON('/books/'+this.state.book.id,'PUT',JSON.stringify(this.state.newBook))
-                .then(()=>{return requestJSON('/books/'+this.state.book.id)})
-                .then((response)=>{return response.json()})
-                .then((book)=>{
-                    let authorsToRemove=difference(this.state.book.authors,this.state.newBook.authors);
-                    let authorsToAdd=difference(this.state.newBook.authors,this.state.book.authors);
-                    for(let author of authorsToAdd){
-                        requestJSON('/authors/add/book/' + author.toString()+'/'+book.id.toString());
-                    }
-                    for(let author of authorsToRemove){
-                        requestJSON('/authors/remove/book/' + author.toString()+'/'+book.id.toString());
-                    }
-                    this.setState({book:book});
-                })
-                .then(()=>{
-                    this.setState({editable:false});
-                    this.forceUpdate();
-                });
+            let newBook=this.state.newBook;
+            newBook.authors=Array.from(set);
+            this.setState({newBook:newBook},()=>{
+                requestJSON('/books/'+this.state.book.id,'PUT',JSON.stringify(this.state.newBook))
+                    .then((response)=>{return response.json()})
+                    .then((book)=>{
+                        let authorsToRemove=difference(this.state.book.authors,this.state.newBook.authors);
+                        let authorsToAdd=difference(this.state.newBook.authors,this.state.book.authors);
+                        for(let author of authorsToAdd){
+                            requestJSON('/authors/add/book/' + author.toString()+'/'+book.id.toString());
+                        }
+                        for(let author of authorsToRemove){
+                            requestJSON('/authors/remove/book/' + author.toString()+'/'+book.id.toString());
+                        }
+                        this.setState({book:book});
+                    })
+                    .then(()=>{
+                        this.setState({editable:false});
+                        this.forceUpdate();
+                    });
+            });
         }
         else {
             this.setState({editable:false});

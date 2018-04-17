@@ -5,7 +5,9 @@ import requestJSON from '../services/requestJSON';
 export default class Authors extends Component{
     constructor(props){
         super(props);
-        this.state={authors:null};
+        this.state={
+            authors:[]
+        };
         this.getAuthors=this.getAuthors.bind(this);
         this.getAuthors();
         this.renderAuthors=this.renderAuthors.bind(this);
@@ -23,10 +25,9 @@ export default class Authors extends Component{
     renderAuthors(){
         if (this.state.authors){
             return this.state.authors.map((author, index)=>{
-                return <ListGroupItem key={index}><Author author={author} refreshOnDelete={this.getAuthors}/></ListGroupItem>
+                return <ListGroupItem key={author.id}><Author author={author} refreshOnDelete={this.getAuthors}/></ListGroupItem>
             });
         }
-
     }
 
     render() {

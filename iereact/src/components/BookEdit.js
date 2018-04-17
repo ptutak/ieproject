@@ -7,7 +7,7 @@ export default class BookEdit extends Component{
         super(props);
         this.state={
             title:this.props.book.title,
-            authors:this.props.book.authors,
+            authors:Array.from(this.props.book.authors),
             year:new Date(this.props.book.year).getFullYear().toString(),
             imageURL:this.props.book.imageURL,
             yearState:null,
@@ -15,8 +15,8 @@ export default class BookEdit extends Component{
             allAuthors:[]
         };
         this.setImageUrl=this.setImageUrl.bind(this);
-        this.getAuthors=this.getAuthors.bind(this);
-        this.getAuthors();
+        this.getAllAuthors=this.getAllAuthors.bind(this);
+        this.getAllAuthors();
         this.getOptions=this.getOptions.bind(this);
         this.handleYearInput=this.handleYearInput.bind(this);
         this.handleAuthorSelect=this.handleAuthorSelect.bind(this);
@@ -76,23 +76,25 @@ export default class BookEdit extends Component{
     }
 
     handleAuthorAdd(event){
-        let authors=this.state.authors;
-        if (this.state.authors.length>0)
-            authors.push(this.state.authors[0].id);
-        else
-            authors.push('');
-        this.setState({authors:authors});
-        this.props.setNewBook({
-            title:this.state.title,
-            authors:authors,
-            year:new Date(this.state.year.toString()),
-            imageURL:this.state.imageURL
-        });
+        if (this.state.allAuthors.length>0) {
+            let authors=this.state.authors;
+            authors.push(this.state.allAuthors[0].id);
+            this.setState({authors: authors});
+            this.props.setNewBook({
+                title: this.state.title,
+                authors: authors,
+                year: new Date(this.state.year.toString()),
+                imageURL: this.state.imageURL
+            });
+        }
+        else {
+            alert('There are no authors in database.');
+        }
         event.preventDefault();
     }
 
 
-    getAuthors(){
+    getAllAuthors(){
         fetch('http://localhost:3001/authors/')
             .then((response)=>{return response.json()})
             .then((data)=>{this.setState({allAuthors:data})})
@@ -100,7 +102,7 @@ export default class BookEdit extends Component{
 
     getOptions(){
         return (
-            this.state.authors.map((author, i)=>{
+            this.state.allAuthors.map((author, i)=>{
                 return <option value={author.id} key={i}>{author.first_name +' '+ author.last_name}</option>
             })
         )
@@ -126,9 +128,10 @@ export default class BookEdit extends Component{
 
     handleYearInput(event){
         let year=parseInt(event.target.value,10);
+        let thisYear=new Date().getFullYear();
         if (!isNaN(year)){
             this.setState({year:year});
-            if (year>0 && year<2019) {
+            if (year>0 && year<=thisYear) {
                 this.setState({yearState: null});
                 this.props.setNewBook({
                     title: this.state.title,

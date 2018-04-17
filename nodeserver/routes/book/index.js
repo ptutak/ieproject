@@ -10,7 +10,8 @@ router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.delete('/:id', controller.delete);
-
+router.get('/add/author/:id/:author',controller.addAuthor);
+router.get('/remove/author/:id/:author',controller.removeAuthor);
 
 
 module.exports=router;
