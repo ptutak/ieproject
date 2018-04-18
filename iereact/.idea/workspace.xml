@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3a1a4a23-ecf3-4788-8e7f-882b7cc7bc69" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/../nodeserver/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../nodeserver/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/service/jwt.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/service/jwt.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
