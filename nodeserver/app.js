@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
+const passport=require('passport');
+
 
 const index = require('./routes/index');
 const users = require('./routes/user/index');
@@ -13,6 +15,7 @@ const authors = require('./routes/author/index');
 const imageupload = require('./routes/service/imageupload');
 const images = require('./routes/service/images');
 const app = express();
+
 
 const promise=mongoose.connect('mongodb://localhost/library');
 
@@ -30,7 +33,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(fileUpload());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(passport.initialize());
 
 app.use('/', index);
 app.use('/users', users);
