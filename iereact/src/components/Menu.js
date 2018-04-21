@@ -31,10 +31,10 @@ class Menu extends Component {
                         </NavDropdown>
                     </Nav>
                     <Nav pullRight>
-                        <NavItem index="Register">
+                        <NavItem index="Register" onClick={this.changeMainSite}>
                             Register
                         </NavItem>
-                        <NavItem index="Login">
+                        <NavItem index="Login" onClick = {this.changeMainSite}>
                             Login
                         </NavItem>
                     </Nav>

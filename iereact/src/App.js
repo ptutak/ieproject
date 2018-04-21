@@ -37,6 +37,12 @@ class App extends Component {
             case "AddAuthor":
                 this.setState({actualSite:"AddAuthor"});
                 break;
+            case "Login":
+                this.setState({actualSite:"Login"});
+                break;
+            case "Register":
+                this.setState({actualSite:"Register"});
+                break;
             default:
                 this.setState({actualSite:"Welcome"});
         }

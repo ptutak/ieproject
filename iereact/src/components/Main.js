@@ -4,6 +4,8 @@ import AddAuthor from './AddAuthor';
 import Authors from './Authors';
 import AddBook from './AddBook';
 import Books from './Books';
+import Register from './Register';
+import Login from './Login';
 
 
 class Main extends Component {
@@ -21,7 +23,9 @@ class Main extends Component {
             case "Books":
                 return <Books/>;
             case "Register":
+                return <Register/>;
             case "Login":
+                return <Login/>;
             default:
                 return <Welcome/>;
         }

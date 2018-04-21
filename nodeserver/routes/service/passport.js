@@ -7,18 +7,19 @@ const jwtSecret = require('../../config').jwtSecret;
 
 const model = require('../user/model').model;
 
-module.exports.password = () => (req, res, next) =>
-    passport.authenticate('password', { session: false }, (err, user, info, email) => {
+module.exports.password = () => (req, res, next) => {
+    return passport.authenticate('password', {session: false}, (err, user, info, email) => {
         if (err && err.param) {
             return res.status(400).json(err)
         } else if (err || !user) {
             return res.status(401).end()
         }
-        req.logIn(user, { session: false }, (err) => {
+        req.logIn(user, {session: false}, (err) => {
             if (err) return res.status(401).end();
             next()
         })
-    })(req, res, next);
+    })(req, res, next)
+};
 
 module.exports.master = () =>
     passport.authenticate('master', { session: false });
