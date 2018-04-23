@@ -40,12 +40,10 @@ passport.use('password', new BasicStrategy({passReqToCallback: true}, (req, emai
 
     model.findOne({ email }).then((user) => {
         if (!user) {
-            done(true);
-            return null;
+            return done(null,false,'Wrong email');
         }
         return user.authenticate(password, user.password).then((loggedUser) => {
-            done(null, loggedUser);
-            return null;
+            return done(null, loggedUser);
         }).catch(done)
     })
 }));
@@ -53,9 +51,9 @@ passport.use('password', new BasicStrategy({passReqToCallback: true}, (req, emai
 passport.use('master', new BearerStrategy((token, done) => {
     console.log(token);
     if (token === masterKey) {
-        done(null, {});
+        return done(null, {});
     } else {
-        done(null, false);
+        return done(null, false);
     }
 }));
 
@@ -68,7 +66,6 @@ passport.use('token', new JwtStrategy({
     ])
 }, ({ id }, done) => {
     model.findById(id).then((user) => {
-        done(null, user);
-        return null
+        return done(null, user);
     }).catch(done)
 }));

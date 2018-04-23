@@ -41,7 +41,6 @@ UserSchema.path('email').set(function (email) {
     const hash = crypto.createHash('md5').update(email).digest('hex');
     this.picture = `https://gravatar.com/avatar/${hash}?d=identicon`
   }
-
   return email
 });
 
