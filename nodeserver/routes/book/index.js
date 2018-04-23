@@ -1,6 +1,6 @@
 const express = require('express');
 const controller = require('./controller');
-
+const token = require('../service/passport').token;
 
 const router = express.Router();
 
