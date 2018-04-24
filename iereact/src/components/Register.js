@@ -1,15 +1,57 @@
 import React, {Component} from 'react';
 import {FormControl, FormGroup, Form, Col, ControlLabel, Button} from 'react-bootstrap';
 export default class Register extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            email:'',
+            password:'',
+            repPassword:'',
+            name:''
+        };
+        this.getValidationState=this.getValidationState.bind(this);
+        this.onEmailChange=this.onEmailChange.bind(this);
+        this.onPassChange=this.onPassChange.bind(this);
+        this.onRepPassChange=this.onRepPassChange.bind(this);
+        this.onNameChange=this.onNameChange.bind(this);
+    }
+
+    getValidationState(){
+        let emailRe=/^\S+@\S+\.\S+$/g;
+        return 'warning';
+    }
+
+    onEmailChange(event){
+        this.setState({email:event.target.value});
+        event.preventDefault();
+    }
+    onPassChange(event){
+        this.setState({password:event.target.value});
+        event.preventDefault();
+    }
+    onRepPassChange(event){
+        this.setState({repPassword:event.target.value});
+        event.preventDefault();
+    }
+    onNameChange(event){
+        this.setState({name:event.target.value});
+        event.preventDefault();
+    }
     render(){
         return (
             <Form horizontal>
-                <FormGroup controlId="formHorizontalLogin">
+                <FormGroup
+                    controlId="formHorizontalLogin"
+                    validationState={this.getValidationState()}>
                     <Col componentClass={ControlLabel} sm={1}>
-                        Login
+                        Email
                     </Col>
                     <Col sm={10}>
-                        <FormControl type="login" placeholder="Login" />
+                        <FormControl
+                            type="email"
+                            placeholder="Email"
+                            onChange={this.onEmailChange}
+                            value={this.state.email}/>
                     </Col>
                 </FormGroup>
 
@@ -18,7 +60,11 @@ export default class Register extends Component{
                         Password
                     </Col>
                     <Col sm={10}>
-                        <FormControl type="password" placeholder="Password" />
+                        <FormControl
+                            type="password"
+                            placeholder="Password"
+                            onChange={this.onPassChange}
+                            value={this.state.password}/>
                     </Col>
                 </FormGroup>
 
@@ -27,7 +73,11 @@ export default class Register extends Component{
                         Repeat password
                     </Col>
                     <Col sm={10}>
-                        <FormControl type="password" placeholder="Repeat password" />
+                        <FormControl
+                            type="password"
+                            placeholder="Repeat password"
+                            onChange={this.onRepPassChange}
+                            value={this.state.repPassword}/>
                     </Col>
                 </FormGroup>
 
@@ -36,16 +86,11 @@ export default class Register extends Component{
                         Name
                     </Col>
                     <Col sm={10}>
-                        <FormControl type="text" placeholder="Name" />
-                    </Col>
-                </FormGroup>
-
-                <FormGroup controlId="formHorizontalDateOfBirth">
-                    <Col componentClass={ControlLabel} sm={1}>
-                        Date of birth
-                    </Col>
-                    <Col sm={10}>
-                        <FormControl type="date"/>
+                        <FormControl
+                            type="text"
+                            placeholder="Name"
+                            onChange={this.onNameChange}
+                            value={this.state.name}/>
                     </Col>
                 </FormGroup>
 

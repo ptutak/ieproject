@@ -7,10 +7,10 @@ export default class Login extends Component{
                 <Form horizontal>
                     <FormGroup controlId="formHorizontalLogin">
                         <Col componentClass={ControlLabel} sm={1}>
-                            Login
+                            Email
                         </Col>
                         <Col sm={10}>
-                            <FormControl type="login" placeholder="Login" />
+                            <FormControl type="email" placeholder="Email" />
                         </Col>
                     </FormGroup>
 
