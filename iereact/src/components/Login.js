@@ -40,8 +40,7 @@ export default class Login extends Component{
 
     handleLoginClick(event){
         if (!this.getValidationEmailState() && !this.getValidationPassState()){
-            let user={email:this.state.email, password: this.state.password};
-            requestJSON('/login/','POST',JSON.stringify({user:user}))
+            requestJSON('/login/','POST',JSON.stringify({email:this.state.email, password: this.state.password}))
                 .then((response)=>response.json())
                 .then((body)=>{console.log(body)});
         }

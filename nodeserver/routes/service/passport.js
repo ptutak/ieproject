@@ -1,5 +1,5 @@
 const passport = require('passport');
-const BasicStrategy = require('passport-http').BasicStrategy;
+const LocalStrategy = require('passport-local').Strategy;
 const BearerStrategy  = require('passport-http-bearer').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt  = require('passport-jwt').ExtractJwt;
@@ -7,40 +7,12 @@ const jwtSecret = require('../../config').jwtSecret;
 
 const model = require('../user/model').model;
 
-module.exports.password = (req, res, next) => {
-
-        passport.authenticate('password', {session: false}, (err, user, info, email) => {
-            console.log(err, user, info);
-            if (err && err.param) {
-                return res.status(400).json(err)
-            } else if (err || !user) {
-                return res.status(401).end()
-            }
-            req.logIn(user, {session: false}, (err) => {
-                if (err) return res.status(401).end();
-                next()
-            })
-        })(req, res, next)
-    };
-
-module.exports.master = () =>
-    passport.authenticate('master', { session: false });
-
-module.exports.token = ({ required, roles = model.roles } = {}) => (req, res, next) =>
-    passport.authenticate('token', { session: false }, (err, user, info) => {
-        if (err || (required && !user) || (required && !~roles.indexOf(user.role))) {
-            return res.status(401).end()
-        }
-        req.logIn(user, { session: false }, (err) => {
-            if (err) return res.status(401).end();
-            next()
-        })
-    })(req, res, next);
-
-
-passport.use('password', new BasicStrategy({passReqToCallback: true}, (req, email, password, done) => {
-    console.log('this is called');
-    if(!email || !password) done(err);        // You can use more sophisticated checks here
+passport.use('password', new LocalStrategy({
+    usernameField:'email',
+    passwordField:'password'
+},(email, password, done) => {
+    if(!email || !password)
+        return done(err);        // You can use more sophisticated checks here
     model.findOne({ email }).then((user) => {
         if (!user) {
             return done(null,false,'Wrong email');
@@ -72,4 +44,36 @@ passport.use('token', new JwtStrategy({
         return done(null, user);
     }).catch(done)
 }));
+
+
+module.exports.password = (req, res, next) => {
+        passport.authenticate('password', {session: false}, (err, user, info, email) => {
+            if (err && err.param) {
+                return res.status(400).json(err)
+            } else if (err || !user) {
+                return res.status(401).end()
+            }
+            req.logIn(user, {session: false}, (err) => {
+                if (err) return res.status(401).end();
+                next()
+            })
+        })(req, res, next)
+    };
+
+module.exports.master = () =>
+    passport.authenticate('master', { session: false });
+
+module.exports.token = ({ required, roles = model.roles } = {}) => (req, res, next) =>
+    passport.authenticate('token', { session: false }, (err, user, info) => {
+        if (err || (required && !user) || (required && !~roles.indexOf(user.role))) {
+            return res.status(401).end()
+        }
+        req.logIn(user, { session: false }, (err) => {
+            if (err) return res.status(401).end();
+            next()
+        })
+    })(req, res, next);
+
+
+
 
