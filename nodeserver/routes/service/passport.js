@@ -37,7 +37,7 @@ module.exports.token = ({ required, roles = model.roles } = {}) => (req, res, ne
 
 passport.use('password', new BasicStrategy({passReqToCallback: true}, (req, email, password, done) => {
     if(!email || !password) done(err);        // You can use more sophisticated checks here
-
+    console.log('We are here');
     model.findOne({ email }).then((user) => {
         if (!user) {
             return done(null,false,'Wrong email');

@@ -10,6 +10,7 @@ const passport=require('passport');
 
 const index = require('./routes/index');
 const users = require('./routes/user/index');
+const authorization = require('./routes/authorization/index');
 const books = require('./routes/book/index');
 const authors = require('./routes/author/index');
 const imageupload = require('./routes/service/imageupload');
@@ -37,6 +38,7 @@ app.use(passport.initialize());
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/login',authorization);
 app.use('/books', books);
 app.use('/authors',authors);
 app.use('/imageupload',imageupload);

@@ -6,23 +6,22 @@ module.exports.showMe = ({ user }, res) =>
   res.json(user.view());
 
 module.exports.create = (req, res, next) => {
-  const { body: {email, password, name} } = req;
-
-  model.create({email, password, name})
-      .then((user) => user.view())
-    .then(successJSON(res, 201))
-    .catch((err) => {
-      /* istanbul ignore else */
-      if (err.code === 11000) {
-        res.status(409).json({
-          valid: false,
-          param: 'email',
-          message: 'email already registered'
+    let user=req.body;
+    model.create(user)
+        .then((user) => user.view())
+        .then(successJSON(res, 201))
+        .catch((err) => {
+            /* istanbul ignore else */
+            if (err.code === 11000) {
+                res.status(409).json({
+                    valid: false,
+                    param: 'email',
+                    message: 'email already registered'
+                })
+            } else {
+                next(err)
+            }
         })
-      } else {
-        next(err)
-      }
-    })
 };
 
 module.exports.update = ({body, params, user}, res, next) => {

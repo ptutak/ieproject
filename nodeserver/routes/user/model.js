@@ -47,9 +47,7 @@ UserSchema.path('email').set(function (email) {
 // Doing something before saving
 UserSchema.pre('save', function (next) {
   if (!this.isModified('password')) return next();
-
   const rounds = 9;
-
   bcrypt.hash(this.password, rounds).then((hash) => {
     this.password = hash;
     next()
@@ -64,7 +62,6 @@ UserSchema.statics = {
 UserSchema.methods = {
     view() {
         let fields = ['id', 'name', 'picture'];
-
         let userView = {};
         fields.forEach((field) => {
             userView[field] = this[field]
