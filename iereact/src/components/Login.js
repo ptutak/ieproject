@@ -41,11 +41,23 @@ export default class Login extends Component{
     handleLoginClick(event){
         if (!this.getValidationEmailState() && !this.getValidationPassState()){
             requestJSON('/login/','POST',JSON.stringify({email:this.state.email, password: this.state.password}))
-                .then((response)=>response.json())
-                .then((body)=>{console.log(body)});
-        }
-        else if (!this.getValidationEmailState()){
-            event.preventDefault();
+                .then((response)=>{
+                    if (response.status!==401)
+                        return response.json();
+                    else
+                        return null;
+                })
+                .then((body)=>{
+                    if (body) {
+                        this.props.setCredentials(body);
+                        this.props.changeWelcomeTitle('You have successfully logged in!!!');
+                        this.props.changeMain('Welcome');
+                    }
+                    else {
+                        this.props.changeWelcomeTitle('Wrong login credentials');
+                        this.props.changeMain('Welcome');
+                    }
+                })
         }
         event.preventDefault();
     }

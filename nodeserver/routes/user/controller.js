@@ -6,7 +6,10 @@ module.exports.showMe = ({ user }, res) =>
   res.json(user.view());
 
 module.exports.create = (req, res, next) => {
-    let user=req.body;
+    let user={};
+    user.email=req.body.email;
+    user.name=req.body.name;
+    user.password=req.body.password;
     model.create(user)
         .then((user) => user.view())
         .then(successJSON(res, 201))

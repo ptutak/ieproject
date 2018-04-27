@@ -5,7 +5,7 @@ export default class Welcome extends Component{
         return (
             <div>
                 <h1>
-                    WELCOME to the Library!!!
+                    {this.props.title}
                 </h1>
             </div>
         )

@@ -8,12 +8,23 @@ class App extends Component {
     constructor(){
         super();
         this.state={
-            welcomeTitle:"Hello",
+            welcomeTitle:"Welcome to the Library!",
             mainSites:["Welcome","Books", "AddBook","Authors","AddAuthor"],
-            actualSite:"Welcome"
+            actualSite:"Welcome",
+            credentials:null
         };
         this.changeMain=this.changeMain.bind(this);
         this.changeWelcomeTitle=this.changeWelcomeTitle.bind(this);
+        this.setCredentials=this.setCredentials.bind(this);
+        this.getCredentials=this.getCredentials.bind(this);
+    }
+
+    setCredentials(credentials){
+        this.setState({credentials:credentials});
+    }
+
+    getCredentials(){
+        return this.state.credentials;
     }
 
     changeWelcomeTitle(state){
@@ -44,7 +55,7 @@ class App extends Component {
                 this.setState({actualSite:"Register"});
                 break;
             default:
-                this.setState({actualSite:"Welcome"});
+                this.setState({actualSite:"Refresh"});
         }
     }
 
@@ -52,8 +63,20 @@ class App extends Component {
         return (
           <div className="App">
               <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossOrigin="anonymous"/>
-              <Menu changeMain={this.changeMain} changeWelcomeTitle={this.changeWelcomeTitle}/>
-              <Main changeMain={this.changeMain} mainSite={this.state.actualSite} mainSites={this.state.mainSites} welcomeTitle={this.state.welcomeTitle}/>
+              <Menu
+                  changeMain={this.changeMain}
+                  changeWelcomeTitle={this.changeWelcomeTitle}
+                  setCredentials={this.setCredentials}
+                  credentials={this.state.credentials}
+              />
+              <Main
+                  changeMain={this.changeMain}
+                  mainSite={this.state.actualSite}
+                  welcomeTitle={this.state.welcomeTitle}
+                  changeWelcomeTitle={this.changeWelcomeTitle}
+                  setCredentials={this.setCredentials}
+                  credentials={this.state.credentials}
+              />
           </div>
         );
   }

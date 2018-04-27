@@ -9,25 +9,28 @@ import Login from './Login';
 
 
 class Main extends Component {
-
     render() {
         switch(this.props.mainSite){
             case "Welcome":
-                return <Welcome/>;
+                return <Welcome title={this.props.welcomeTitle}/>;
             case "AddAuthor":
-                return <AddAuthor changeMain={this.props.changeMain}/>;
+                return <AddAuthor changeMain={this.props.changeMain}
+                                  credentials={this.props.credentials}/>;
             case "Authors":
-                return <Authors/>;
+                return <Authors credentials={this.props.credentials}/>;
             case "AddBook":
-                return <AddBook changeMain={this.props.changeMain}/>;
+                return <AddBook changeMain={this.props.changeMain}
+                                credentials={this.props.credentials}/>;
             case "Books":
-                return <Books/>;
+                return <Books credentials={this.props.credentials}/>;
             case "Register":
                 return <Register/>;
             case "Login":
-                return <Login/>;
+                return <Login setCredentials={this.props.setCredentials}
+                              changeMain={this.props.changeMain}
+                              changeWelcomeTitle={this.props.changeWelcomeTitle}/>;
             default:
-                return <Welcome/>;
+                return <Welcome title={this.props.welcomeTitle} />;
         }
     }
 }

@@ -66,12 +66,20 @@ export default class Register extends Component{
     }
 
     handleRegisterClick(event){
-        if (!this.getValidationNameState()&&!this.getValidationEmailState()&&!this.getValidationPassState()&&!this.getValidationRepPassState()){
-            requestJSON('/users/','POST',JSON.stringify({email: this.state.email, password: this.state.password, name: this.state.name}))
-                .then((response)=>response.json())
-                .then((body)=>{console.log(body)});
+        if (!this.getValidationNameState()&&!this.getValidationEmailState()&&!this.getValidationPassState()&&!this.getValidationRepPassState()) {
+            requestJSON('/users/', 'POST', JSON.stringify({
+                email: this.state.email,
+                password: this.state.password,
+                name: this.state.name
+            }))
+                .then((response) => {
+                    if (response.status === 409){
+                        alert('Email already exists');
+                        event.preventDefault();
+                    }
+                });
         }
-        else if (!this.getValidationEmailState()){
+        else if (!this.getValidationEmailState()) {
             event.preventDefault();
         }
     }

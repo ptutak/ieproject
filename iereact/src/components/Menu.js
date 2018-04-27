@@ -1,14 +1,87 @@
 import React, { Component } from 'react';
 import {Navbar, NavItem, Nav, NavDropdown, MenuItem} from 'react-bootstrap';
+import requestJSON from '../services/requestJSON';
 
 class Menu extends Component {
     constructor(props){
         super(props);
+        this.state={
+            role:null
+        };
         this.changeMainSite=this.changeMainSite.bind(this);
+        this.renderMenuNavs=this.renderMenuNavs.bind(this);
+        this.renderLoginRegisterLogout=this.renderLoginRegisterLogout.bind(this);
+        this.getRole=this.getRole.bind(this);
     }
 
     changeMainSite(e) {
         this.props.changeMain(e.target.getAttribute("index"));
+    }
+
+    getRole(){
+        if (this.props.credentials){
+            requestJSON('/users/me?token='+this.props.credentials.token)
+                .then((response)=> response.json())
+                .then((body)=> {
+                    this.setState({role: body.role});
+                })
+        }
+    }
+
+    renderMenuNavs(){
+        switch(this.state.role){
+            case 'user':
+                return (
+                    <Nav>
+                        <NavDropdown title="Authors" id="basic-nav-dropdown">
+                            <MenuItem index="Authors" onClick={this.changeMainSite}>List</MenuItem>
+                        </NavDropdown>
+                        <NavDropdown title="Books" id="basic-nav-dropdown">
+                            <MenuItem index="Books" onClick={this.changeMainSite}>List</MenuItem>
+                        </NavDropdown>
+                    </Nav>
+                );
+            case 'admin':
+                return (
+                    <Nav>
+                        <NavDropdown title="Authors" id="basic-nav-dropdown">
+                            <MenuItem index="Authors" onClick={this.changeMainSite}>List</MenuItem>
+                            <MenuItem index="AddAuthor" onClick={this.changeMainSite}>Add author</MenuItem>
+                        </NavDropdown>
+                        <NavDropdown title="Books" id="basic-nav-dropdown">
+                            <MenuItem index="Books" onClick={this.changeMainSite}>List</MenuItem>
+                            <MenuItem index="AddBook" onClick={this.changeMainSite}>Add book</MenuItem>
+                        </NavDropdown>
+                    </Nav>
+                );
+            default:
+                this.getRole();
+                return null;
+        }
+    }
+
+    renderLoginRegisterLogout(){
+        if (!this.props.credentials) {
+            return (
+                <Nav pullRight>
+                    <NavItem index="Register" onClick={this.changeMainSite}>
+                        Register
+                    </NavItem>
+                    <NavItem index="Login" onClick={this.changeMainSite}>
+                        Login
+                    </NavItem>
+                </Nav>
+            );
+        }
+        else {
+            return (
+                <Nav pullRight>
+                    <NavItem href={"http://localhost:3000/"}>
+                        Logout
+                    </NavItem>
+                </Nav>
+            )
+        }
     }
 
     render(){
@@ -20,24 +93,8 @@ class Menu extends Component {
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Navbar.Collapse>
-                    <Nav>
-                        <NavDropdown title="Authors" id="basic-nav-dropdown">
-                            <MenuItem index="Authors" onClick={this.changeMainSite}>List</MenuItem>
-                            <MenuItem index="AddAuthor" onClick={this.changeMainSite}>Add author</MenuItem>
-                        </NavDropdown>
-                        <NavDropdown title="Books" id="basic-nav-dropdown">
-                            <MenuItem index="Books" onClick={this.changeMainSite}>List</MenuItem>
-                            <MenuItem index="AddBook" onClick={this.changeMainSite}>Add book</MenuItem>
-                        </NavDropdown>
-                    </Nav>
-                    <Nav pullRight>
-                        <NavItem index="Register" onClick={this.changeMainSite}>
-                            Register
-                        </NavItem>
-                        <NavItem index="Login" onClick = {this.changeMainSite}>
-                            Login
-                        </NavItem>
-                    </Nav>
+                    {this.renderMenuNavs()}
+                    {this.renderLoginRegisterLogout()}
                 </Navbar.Collapse>
             </Navbar>
         )

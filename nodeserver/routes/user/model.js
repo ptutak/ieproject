@@ -56,12 +56,12 @@ UserSchema.pre('save', function (next) {
 
 // Adds static fields
 UserSchema.statics = {
-    roles
+    roles:roles
 };
 
 UserSchema.methods = {
     view() {
-        let fields = ['id', 'name', 'picture'];
+        let fields = ['id','name','role','picture'];
         let userView = {};
         fields.forEach((field) => {
             userView[field] = this[field]

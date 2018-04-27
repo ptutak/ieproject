@@ -14,7 +14,8 @@ class Books extends Component {
     }
 
     getBooks(){
-        requestJSON('/books/')
+        console.log(this.props.credentials);
+        requestJSON('/books/?token='+this.props.credentials.token,'GET')
             .then((response)=>{return response.json()})
             .then((data)=>{
                 this.setState({books:data});
