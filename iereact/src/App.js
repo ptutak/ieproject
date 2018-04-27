@@ -9,7 +9,6 @@ class App extends Component {
         super();
         this.state={
             welcomeTitle:"Welcome to the Library!",
-            mainSites:["Welcome","Books", "AddBook","Authors","AddAuthor"],
             actualSite:"Welcome",
             credentials:null
         };
@@ -33,31 +32,11 @@ class App extends Component {
 
     changeMain(state){
         switch (state){
-            case "Welcome":
-                this.setState({actualSite:"Welcome"});
-                break;
-            case "Books":
-                this.setState({actualSite:"Books"});
-                break;
-            case "AddBook":
-                this.setState({actualSite:"AddBook"});
-                break;
-            case "Authors":
-                this.setState({actualSite:"Authors"});
-                break;
-            case "AddAuthor":
-                this.setState({actualSite:"AddAuthor"});
-                break;
-            case "Login":
-                this.setState({actualSite:"Login"});
-                break;
-            case "Register":
-                this.setState({actualSite:"Register"});
-                break;
-            default:
+            case null:
                 if (this.state.credentials)
-                    this.setState({welcomeTitle:"You are logged in."});
-                this.setState({actualSite:"Refresh"});
+                    this.setState({welcomeTitle:"You are logged in"});
+            default:
+                this.setState({actualSite:state});
         }
     }
 

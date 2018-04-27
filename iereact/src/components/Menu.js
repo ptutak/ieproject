@@ -16,6 +16,7 @@ class Menu extends Component {
 
     changeMainSite(e) {
         this.props.changeMain(e.target.getAttribute("index"));
+        e.preventDefault();
     }
 
     getRole(){
@@ -75,11 +76,14 @@ class Menu extends Component {
         }
         else {
             return (
-                <Nav pullRight>
-                    <NavItem href={"http://localhost:3000/"}>
-                        Logout
-                    </NavItem>
-                </Nav>
+                    <Nav pullRight>
+                        <NavItem index="Profile" onClick={this.changeMainSite}>
+                            Profile
+                        </NavItem>
+                        <NavItem href={"http://localhost:3000/"}>
+                            Logout
+                        </NavItem>
+                    </Nav>
             )
         }
     }
@@ -89,7 +93,7 @@ class Menu extends Component {
             <Navbar inverse collapseOnSelect>
                 <Navbar.Header>
                     <Navbar.Brand>
-                            <a href="#home" onClick={this.changeMainSite}>Library</a>
+                            <a href="" onClick={this.changeMainSite}>Library</a>
                     </Navbar.Brand>
                 </Navbar.Header>
                 <Navbar.Collapse>

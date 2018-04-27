@@ -6,6 +6,7 @@ import AddBook from './AddBook';
 import Books from './Books';
 import Register from './Register';
 import Login from './Login';
+import Profile from "./Profile";
 
 
 class Main extends Component {
@@ -29,6 +30,8 @@ class Main extends Component {
                 return <Login setCredentials={this.props.setCredentials}
                               changeMain={this.props.changeMain}
                               changeWelcomeTitle={this.props.changeWelcomeTitle}/>;
+            case "Profile":
+                return <Profile credentials={this.props.credentials}/>;
             default:
                 return <Welcome title={this.props.welcomeTitle} />;
         }
