@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import UploadImage from "./UploadImage";
 import {ListGroup, ListGroupItem, Image, Table, Button} from 'react-bootstrap';
+import requestJSON from "../services/requestJSON";
 
 export default class BookEdit extends Component{
     constructor(props){
@@ -103,7 +104,7 @@ export default class BookEdit extends Component{
 
 
     getAllBooks(){
-        fetch('http://localhost:3001/books/')
+        requestJSON('/books/?token='+this.props.credentials.token)
             .then((response)=>{return response.json()})
             .then((data)=>{this.setState({allBooks:data})})
     }

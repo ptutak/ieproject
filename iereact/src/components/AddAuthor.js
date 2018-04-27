@@ -68,7 +68,7 @@ export default class AddAuthor extends Component{
         event.preventDefault();
     }
     getAllBooks(){
-        fetch('http://localhost:3001/books/')
+        requestJSON('/books/?token='+this.props.credentials.token)
             .then((response)=>{return response.json()})
             .then((data)=>{
                 if (data.length>0){
@@ -152,12 +152,13 @@ export default class AddAuthor extends Component{
                 last_name:this.state.last_name,
                 date_of_birth: new Date(this.state.date_of_birth.toString()),
                 books:this.state.books,
-                imageURL:this.state.imageURL
+                imageURL:this.state.imageURL,
+                token:this.props.credentials.token
             }))
                 .then((response)=>{return response.json()})
                 .then((author)=>{
                     for (let book of this.state.books){
-                        requestJSON('/books/add/author/'+book.toString()+'/'+author.id);
+                        requestJSON('/books/add/author/'+book.toString()+'/'+author.id+'?token='+this.props.credentials.token);
                     }
                     this.props.changeMain('Authors');
                 })

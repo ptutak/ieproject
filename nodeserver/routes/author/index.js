@@ -1,28 +1,16 @@
 const express = require('express');
 const controller = require('./controller');
-
+const token = require('../service/passport').token;
 
 const router = new express.Router();
-// Start here
-// Core examples - you need to have it in your project!
-router.get('/', controller.index);
-router.get('/:id', controller.show);
-router.post('/', controller.create);
-router.put('/:id', controller.update);
-router.delete('/:id', controller.delete);
-router.get('/add/book/:id/:book',controller.addBook);
-router.get('/remove/book/:id/:book',controller.removeBook);
 
+router.get('/',token({ required: true}), controller.index);
+router.get('/:id',token({ required: true}), controller.show);
+router.post('/',token({ required: true, roles:['admin']}), controller.create);
+router.put('/:id', token({ required: true, roles:['admin']}),controller.update);
+router.delete('/:id',token({ required: true, roles:['admin']}), controller.delete);
+router.get('/add/book/:id/:book',token({ required: true, roles:['admin']}),controller.addBook);
+router.get('/remove/book/:id/:book',token({ required: true, roles:['admin']}),controller.removeBook);
 
-/*
-// Other examples - not necessary but can upgrade your mark
-router.get('/search/name/:name', searchByName)
-router.get('/search/height/:min/:max', searchByHeight)
-router.get('/search/birthday/:min/:max', searchByBirthday)
-router.get('/count', count)
-router.get('/list', listcount)
-router.get('/index/:limit?/:skip?', paginatedIndex)
-router.get('/:id/movies', moviesByActor)
-*/
 
 module.exports=router;

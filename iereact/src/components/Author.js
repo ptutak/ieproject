@@ -22,7 +22,7 @@ export default class Author extends Component{
             newAuthor:null
         };
         this.renderMain=this.renderMain.bind(this);
-        this.renderButtonEditUpdate=this.renderButtonEditUpdate.bind(this);
+        this.renderButtons=this.renderButtons.bind(this);
         this.handleEditClick=this.handleEditClick.bind(this);
         this.handleUpdateClick=this.handleUpdateClick.bind(this);
         this.handleDeleteClick=this.handleDeleteClick.bind(this);
@@ -39,6 +39,7 @@ export default class Author extends Component{
             let set=new Set(this.state.newAuthor.books);
             let newAuthor=this.state.newAuthor;
             newAuthor.books=Array.from(set);
+            newAuthor.token=this.props.credentials.token;
             this.setState({newAuthor:newAuthor},()=>{
                 requestJSON('/authors/'+this.state.author.id,'PUT',JSON.stringify(this.state.newAuthor))
                     .then((response)=>{return response.json()})
@@ -46,10 +47,10 @@ export default class Author extends Component{
                         let booksToRemove=difference(this.state.author.books,this.state.newAuthor.books);
                         let booksToAdd=difference(this.state.newAuthor.books,this.state.author.books);
                         for(let book of booksToAdd){
-                            requestJSON('/books/add/author/' + book.toString()+'/'+author.id.toString());
+                            requestJSON('/books/add/author/' + book.toString()+'/'+author.id.toString()+'?token='+this.props.credentials.token);
                         }
                         for(let book of booksToRemove){
-                            requestJSON('/books/remove/author/' + book.toString()+'/'+author.id.toString());
+                            requestJSON('/books/remove/author/' + book.toString()+'/'+author.id.toString()+'?token='+this.props.credentials.token);
                         }
                         this.setState({author:author});
                     })
@@ -67,10 +68,10 @@ export default class Author extends Component{
 
     handleDeleteClick(event){
         event.preventDefault();
-        requestJSON('/authors/'+this.state.author.id,'DELETE')
+        requestJSON('/authors/'+this.state.author.id+'?token='+this.props.credentials.token,'DELETE')
             .then(()=>{
                 for (let book of this.state.author.books){
-                    requestJSON('/books/remove/author/' + book.toString()+'/'+this.state.author.id.toString());
+                    requestJSON('/books/remove/author/' + book.toString()+'/'+this.state.author.id.toString()+'?token='+this.props.credentials.token);
                 }
             })
             .then(()=>{this.props.refreshOnDelete()});
@@ -80,30 +81,51 @@ export default class Author extends Component{
         this.setState({newAuthor:author})
     }
 
-    renderButtonEditUpdate(){
-        if (this.state.editable){
-            return(
-                <Button onClick={this.handleUpdateClick}>
-                    Update
-                </Button>
+    renderButtons(){
+        if (this.props.editable) {
+            if (this.state.editable) {
+                return (
+                    <div>
+                    <span style={{paddingRight:'100px'}}>
+                        <Button onClick={this.handleUpdateClick}>
+                            Update
+                        </Button>
+                    </span>
+                        <span>
+                        <Button onClick={this.handleDeleteClick}>
+                            Delete
+                        </Button>
+                    </span>
+                    </div>
+                );
+            }
+            return (
+                <div>
+                <span style={{paddingRight:'100px'}}>
+                    <Button onClick={this.handleEditClick}>
+                        Edit
+                    </Button>
+                </span>
+                    <span>
+                    <Button onClick={this.handleDeleteClick}>
+                        Delete
+                    </Button>
+                </span>
+                </div>
             );
         }
-        return (
-            <Button onClick={this.handleEditClick}>
-                Edit
-            </Button>
-        );
+        else
+            return null;
     }
-
 
     renderMain(){
         if (this.state.editable){
             return (
-                <AuthorEdit author={this.state.author} setNewAuthor={this.setNewAuthor}/>
+                <AuthorEdit author={this.state.author} credentials={this.props.credentials} setNewAuthor={this.setNewAuthor}/>
             );
         }
         return (
-            <AuthorView author={this.state.author}/>
+            <AuthorView author={this.state.author} credentials={this.props.credentials}/>
         )
     }
 
@@ -111,16 +133,7 @@ export default class Author extends Component{
         return (
             <div>
                 {this.renderMain()}
-                <div>
-                    <span style={{paddingRight:'100px'}}>
-                        {this.renderButtonEditUpdate()}
-                    </span>
-                    <span>
-                        <Button onClick={this.handleDeleteClick}>
-                            Delete
-                        </Button>
-                    </span>
-                </div>
+                {this.renderButtons()}
             </div>
         )
     }

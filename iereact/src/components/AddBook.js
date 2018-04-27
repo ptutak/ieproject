@@ -42,7 +42,8 @@ export default class AddBook extends Component{
     }
 
     getAllAuthors(){
-        fetch('http://localhost:3001/authors/').then((response)=>{return response.json()})
+        requestJSON('/authors/?token='+this.props.credentials.token)
+            .then((response)=>{return response.json()})
             .then((data)=>{
                 if (data.length>0){
                     this.setState({allAuthors:data, authors:[data[0].id]})
@@ -130,13 +131,14 @@ export default class AddBook extends Component{
                     title: this.state.title,
                     year: new Date(this.state.year.toString()),
                     authors:this.state.authors,
-                    imageURL:this.state.imageURL
+                    imageURL:this.state.imageURL,
+                    token:this.props.credentials.token
                 }))
                     .then((response)=>{return response.json()})
                     .then((body)=>{
                         let bookid=body.id;
                         for(let author of this.state.authors){
-                            requestJSON('/authors/add/book/' + author.toString()+'/'+bookid.toString());
+                            requestJSON('/authors/add/book/' + author.toString()+'/'+bookid.toString()+'?=token'+this.props.credentials.token);
                         }
                         this.props.changeMain('Books');
                     });

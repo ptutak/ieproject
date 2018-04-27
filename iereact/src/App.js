@@ -55,6 +55,8 @@ class App extends Component {
                 this.setState({actualSite:"Register"});
                 break;
             default:
+                if (this.state.credentials)
+                    this.setState({welcomeTitle:"You are logged in."});
                 this.setState({actualSite:"Refresh"});
         }
     }

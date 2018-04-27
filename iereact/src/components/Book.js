@@ -22,7 +22,7 @@ class Book extends Component {
             newBook:null
         };
         this.renderMain=this.renderMain.bind(this);
-        this.renderButtonEditUpdate=this.renderButtonEditUpdate.bind(this);
+        this.renderButtons=this.renderButtons.bind(this);
         this.handleEditClick=this.handleEditClick.bind(this);
         this.handleUpdateClick=this.handleUpdateClick.bind(this);
         this.handleDeleteClick=this.handleDeleteClick.bind(this);
@@ -39,17 +39,20 @@ class Book extends Component {
             let set=new Set(this.state.newBook.authors);
             let newBook=this.state.newBook;
             newBook.authors=Array.from(set);
+            newBook.token=this.props.credentials.token;
             this.setState({newBook:newBook},()=>{
-                requestJSON('/books/'+this.state.book.id,'PUT',JSON.stringify(this.state.newBook))
+                requestJSON('/books/'+this.state.book.id,'PUT',JSON.stringify(
+                    this.state.newBook
+                ))
                     .then((response)=>{return response.json()})
                     .then((book)=>{
                         let authorsToRemove=difference(this.state.book.authors,this.state.newBook.authors);
                         let authorsToAdd=difference(this.state.newBook.authors,this.state.book.authors);
                         for(let author of authorsToAdd){
-                            requestJSON('/authors/add/book/' + author.toString()+'/'+book.id.toString());
+                            requestJSON('/authors/add/book/' + author.toString()+'/'+book.id.toString()+'?token='+this.props.credentials.token);
                         }
                         for(let author of authorsToRemove){
-                            requestJSON('/authors/remove/book/' + author.toString()+'/'+book.id.toString());
+                            requestJSON('/authors/remove/book/' + author.toString()+'/'+book.id.toString()+'?token='+this.props.credentials.token);
                         }
                         this.setState({book:book});
                     })
@@ -67,10 +70,10 @@ class Book extends Component {
 
     handleDeleteClick(event){
         event.preventDefault();
-        requestJSON('/books/'+this.state.book.id,'DELETE')
+        requestJSON('/books/'+this.state.book.id+'?token='+this.props.credentials.token,'DELETE')
             .then(()=>{
                 for (let author of this.state.book.authors){
-                    requestJSON('/authors/remove/book/' + author.toString()+'/'+this.state.book.id.toString());
+                    requestJSON('/authors/remove/book/' + author.toString()+'/'+this.state.book.id.toString()+'?token='+this.props.credentials.token);
                 }
             })
             .then(()=>{this.props.refreshOnDelete()});
@@ -80,30 +83,52 @@ class Book extends Component {
         this.setState({newBook:book})
     }
 
-    renderButtonEditUpdate(){
-        if (this.state.editable){
-            return(
-            <Button onClick={this.handleUpdateClick}>
-                Update
-            </Button>
+    renderButtons(){
+        if (this.props.editable) {
+            if (this.state.editable) {
+                return (
+                    <div>
+                    <span style={{paddingRight:'100px'}}>
+                        <Button onClick={this.handleUpdateClick}>
+                            Update
+                        </Button>
+                    </span>
+                    <span>
+                        <Button onClick={this.handleDeleteClick}>
+                            Delete
+                        </Button>
+                    </span>
+                    </div>
+                );
+            }
+            return (
+                <div>
+                <span style={{paddingRight:'100px'}}>
+                    <Button onClick={this.handleEditClick}>
+                        Edit
+                    </Button>
+                </span>
+                <span>
+                    <Button onClick={this.handleDeleteClick}>
+                        Delete
+                    </Button>
+                </span>
+                </div>
             );
         }
-        return (
-            <Button onClick={this.handleEditClick}>
-                Edit
-            </Button>
-        );
+        else
+            return null;
     }
 
 
     renderMain(){
         if (this.state.editable){
             return (
-                <BookEdit book={this.state.book} setNewBook={this.setNewBook}/>
+                <BookEdit book={this.state.book} credentials={this.props.credentials} setNewBook={this.setNewBook}/>
             );
         }
         return (
-            <BookView book={this.state.book}/>
+            <BookView book={this.state.book} credentials={this.props.credentials}/>
         )
     }
 
@@ -111,16 +136,7 @@ class Book extends Component {
         return (
             <div>
                 {this.renderMain()}
-                <div>
-                    <span style={{paddingRight:'100px'}}>
-                        {this.renderButtonEditUpdate()}
-                    </span>
-                    <span>
-                        <Button onClick={this.handleDeleteClick}>
-                            Delete
-                        </Button>
-                    </span>
-                </div>
+                {this.renderButtons()}
             </div>
         )
     }

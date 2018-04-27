@@ -32,7 +32,7 @@ export default class AuthorView extends Component {
         let books=[];
         let processed=0;
         this.state.author.books.forEach((book,index)=>{
-            requestJSON('/books/'+book.toString())
+            requestJSON('/books/'+book.toString()+'?token='+this.props.credentials.token)
                 .then((response)=>{return response.json()})
                 .then((data)=>{
                     books.push(data);
