@@ -60,8 +60,10 @@ UserSchema.statics = {
 };
 
 UserSchema.methods = {
-    view() {
-        let fields = ['id','name','role','picture'];
+    view(mode='full') {
+        let fields = ['id','name','role','picture', 'email'];
+        if (mode==='short')
+            fields=['id','name'];
         let userView = {};
         fields.forEach((field) => {
             userView[field] = this[field]
