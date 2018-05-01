@@ -11,7 +11,8 @@ export default class Profile extends Component{
             repNewPass:'',
             nameEdit:false,
             passChange:false,
-            picEdit:false
+            picEdit:false,
+            picValidState:null
         };
         this.getProfile=this.getProfile.bind(this);
         this.getProfile();
@@ -22,7 +23,7 @@ export default class Profile extends Component{
 
         this.handleEditName=this.handleEditName.bind(this);
         this.getEditNameValidState=this.getEditNameValidState.bind(this);
-        this.handleEditNameChange=this.handleEditNameChange.bind(this);
+        this.handleNameChange=this.handleNameChange.bind(this);
         this.handleUpdateName=this.handleUpdateName.bind(this);
 
         this.handleChangePassword=this.handleChangePassword.bind(this);
@@ -32,10 +33,25 @@ export default class Profile extends Component{
         this.handleRepPassChange=this.handleRepPassChange.bind(this);
         this.handleUpdatePassword=this.handleUpdatePassword.bind(this);
 
+        this.handleChangePicture=this.handleChangePicture.bind(this);
+        this.handlePictureOnChange=this.handlePictureOnChange.bind(this);
+        this.handleUpdatePicture=this.handleUpdatePicture.bind(this);
+    }
+
+    updateProfile(){
+        let profile=this.state.profile;
+        if (this.state.newPass.length)
+            profile.password=this.state.newPass;
+        profile.token=this.props.credentials.token;
+        requestJSON('/users/'+this.props.profileId,'PUT',JSON.stringify(profile)).then(
+            (response)=>{
+                this.getProfile();
+            }
+        )
     }
 
     getProfile(){
-        requestJSON('/users/me?token='+this.props.credentials.token)
+        requestJSON('/users/'+this.props.profileId+'?token='+this.props.credentials.token)
             .then((response)=> response.json())
             .then((body)=>{
                 this.setState({profile:body})
@@ -48,10 +64,12 @@ export default class Profile extends Component{
     }
 
     getEditNameValidState(){
-        return null;
+        if (this.state.profile.name.length>0)
+            return null;
+        return 'error';
     }
 
-    handleEditNameChange(event){
+    handleNameChange(event){
         let profile=this.state.profile;
         profile.name=event.target.value;
         this.setState({profile:profile});
@@ -60,7 +78,10 @@ export default class Profile extends Component{
     }
 
     handleUpdateName(event){
-        this.setState({nameEdit:false});
+        if (!this.getEditNameValidState())
+            this.setState({nameEdit:false},()=>{
+                this.updateProfile();
+            });
         event.preventDefault();
     }
 
@@ -69,7 +90,9 @@ export default class Profile extends Component{
             return (
                 <ListGroupItem>
                     Name: {this.state.profile.name}
-                    <Button style={{position:'absolute', right:'100px', bottom:'3px' }} onClick={this.handleEditName}>Edit Name</Button>
+                    <p style={{paddingTop:'10px'}}>
+                        <Button onClick={this.handleEditName}>Edit Name</Button>
+                    </p>
                 </ListGroupItem>
             );
 
@@ -78,7 +101,7 @@ export default class Profile extends Component{
                 <Form>
                     <FormGroup controlId='nameInput' validationState={this.getEditNameValidState()}>
                         <ControlLabel>Name:</ControlLabel>
-                        <FormControl type='text' value={this.state.profile.name} onChange={this.handleEditNameChange}/>
+                        <FormControl type='text' value={this.state.profile.name} onChange={this.handleNameChange}/>
                     </FormGroup>
                     <Button type='submit' onClick={this.handleUpdateName}>Update Name</Button>
                 </Form>
@@ -114,8 +137,10 @@ export default class Profile extends Component{
     }
 
     handleUpdatePassword(event){
-        
-        this.setState({passChange:false});
+        if (!this.getRepPassValidState() && !this.getNewPassValidState())
+            this.setState({passChange:false},()=>{
+                this.updateProfile();
+            });
         event.preventDefault();
     }
 
@@ -142,12 +167,51 @@ export default class Profile extends Component{
             </ListGroupItem>
         )
     }
+
+    handleChangePicture(event){
+        this.setState({picEdit:true});
+        event.preventDefault();
+    }
+
+
+    handlePictureOnChange(event){
+        let profile=this.state.profile;
+        profile.picture=event.target.value;
+        this.setState({profile:profile},()=>{
+            fetch(this.state.profile.picture).then((response)=>{this.setState({picValidState:null})}).catch((reason)=>{this.setState({picValidState:'error'})});
+        });
+        event.preventDefault();
+    }
+
+    handleUpdatePicture(event){
+        if (!this.state.picValidState)
+            this.setState({picEdit:false},()=>{
+                this.updateProfile();
+            });
+        event.preventDefault();
+    }
+
     renderPicture(){
         if (!this.state.picEdit)
-            return <ListGroupItem>
-                <Button>Change Picture</Button>
-            </ListGroupItem>;
-        return null;
+            return (
+                <ListGroupItem>
+                    Picture: {this.state.profile.picture}
+                    <p style={{paddingTop:'10px'}}>
+                        <Button onClick={this.handleChangePicture}>Change Picture</Button>
+                    </p>
+                </ListGroupItem>
+            );
+        return (
+            <ListGroupItem>
+                <Form>
+                    <FormGroup controlId={'changePassword'} validationState={this.state.picValidState}>
+                        <ControlLabel>Picture:</ControlLabel>
+                        <FormControl type={'text'} value={this.state.profile.picture} onChange={this.handlePictureOnChange}/>
+                    </FormGroup>
+                    <Button type={'submit'} onClick={this.handleUpdatePicture}>Update Picture</Button>
+                </Form>
+            </ListGroupItem>
+        );
     }
 
     renderProfile(){
@@ -159,8 +223,8 @@ export default class Profile extends Component{
                         <span style={{color:'#808080', position:'absolute', right:'100px' }}>Uneditable</span>
                     </ListGroupItem>
                     {this.renderName()}
-                    {this.renderPassword()}
                     {this.renderPicture()}
+                    {this.renderPassword()}
                 </ListGroup>
             )
         }

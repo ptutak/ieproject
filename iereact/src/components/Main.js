@@ -31,7 +31,7 @@ class Main extends Component {
                               changeMain={this.props.changeMain}
                               changeWelcomeTitle={this.props.changeWelcomeTitle}/>;
             case "Profile":
-                return <Profile credentials={this.props.credentials}/>;
+                return <Profile profileId='me' credentials={this.props.credentials}/>;
             default:
                 return <Welcome title={this.props.welcomeTitle} />;
         }

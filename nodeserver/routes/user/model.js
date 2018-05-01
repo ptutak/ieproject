@@ -35,23 +35,20 @@ const UserSchema = new Schema({
   , {timestamps: true});
 
 
-// Changing field value
-UserSchema.path('email').set(function (email) {
-  if (!this.picture || this.picture.indexOf('https://gravatar.com') === 0) {
-    const hash = crypto.createHash('md5').update(email).digest('hex');
-    this.picture = `https://gravatar.com/avatar/${hash}?d=identicon`
-  }
-  return email
-});
 
 // Doing something before saving
 UserSchema.pre('save', function (next) {
-  if (!this.isModified('password')) return next();
-  const rounds = 9;
-  bcrypt.hash(this.password, rounds).then((hash) => {
-    this.password = hash;
-    next()
-  }).catch(next)
+    if (!this.picture) {
+        const hash = crypto.createHash('md5').update(this.email).digest('hex');
+        this.picture = `https://gravatar.com/avatar/${hash}?d=identicon`
+    }
+    if (!this.isModified('password'))
+        return next();
+    const rounds = 9;
+    bcrypt.hash(this.password, rounds).then((hash) => {
+      this.password = hash;
+      next()
+    }).catch(next)
 });
 
 // Adds static fields
@@ -68,7 +65,6 @@ UserSchema.methods = {
         fields.forEach((field) => {
             userView[field] = this[field]
         });
-
         return userView
     },
 

@@ -28,15 +28,16 @@ module.exports.create = (req, res, next) => {
 };
 
 module.exports.update = ({body, params, user}, res, next) => {
-    const {email, password, name} = body;
-
+    let profile= body;
     model.findById(params.id === 'me' ? user.id : params.id)
         .then(notFound(res))
         .then((result) => {
-            if (!result) return null;
+            if (!result)
+                return null;
 
             const isSelfUpdate = user.id === result.id;
-            if (isSelfUpdate) return result;
+            if (isSelfUpdate)
+                return result;
 
             const isAdmin = user.role === 'admin';
             if (!isAdmin) {
@@ -49,7 +50,7 @@ module.exports.update = ({body, params, user}, res, next) => {
             return result
         })
         .then((user) => {
-            return user ? Object.assign(user, {email, password, name}).save() : null
+            return user ? Object.assign(user,profile).save() : null
         })
         .then((user) => user ? user.view('full') : null)
         .then(successJSON(res))
