@@ -34,10 +34,10 @@ class Menu extends Component {
             case 'user':
                 return (
                     <Nav>
-                        <NavDropdown title="Authors" id="basic-nav-dropdown">
+                        <NavDropdown title="Authors" id={'nav-authors'}>
                             <MenuItem index="Authors" onClick={this.changeMainSite}>List</MenuItem>
                         </NavDropdown>
-                        <NavDropdown title="Books" id="basic-nav-dropdown">
+                        <NavDropdown title="Books" id={'nav-books'}>
                             <MenuItem index="Books" onClick={this.changeMainSite}>List</MenuItem>
                         </NavDropdown>
                     </Nav>
@@ -45,13 +45,16 @@ class Menu extends Component {
             case 'admin':
                 return (
                     <Nav>
-                        <NavDropdown title="Authors" id="basic-nav-dropdown">
+                        <NavDropdown title="Authors" id={'nav-authors'}>
                             <MenuItem index="Authors" onClick={this.changeMainSite}>List</MenuItem>
                             <MenuItem index="AddAuthor" onClick={this.changeMainSite}>Add author</MenuItem>
                         </NavDropdown>
-                        <NavDropdown title="Books" id="basic-nav-dropdown">
+                        <NavDropdown title="Books" id={'nav-books'}>
                             <MenuItem index="Books" onClick={this.changeMainSite}>List</MenuItem>
                             <MenuItem index="AddBook" onClick={this.changeMainSite}>Add book</MenuItem>
+                        </NavDropdown>
+                        <NavDropdown title={'Users'} id={'nav-users'}>
+                            <MenuItem index={'UserList'} onClick={this.changeMainSite}>User List</MenuItem>
                         </NavDropdown>
                     </Nav>
                 );

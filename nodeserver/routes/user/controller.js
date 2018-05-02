@@ -2,15 +2,38 @@ const notFound = require('../service/response').notFound;
 const successJSON = require('../service/response').successJSON;
 const model = require('./model').model;
 
-module.exports.showMe = ({ user }, res) =>
-  res.json(user.view());
+
+module.exports.index = function(req, res, next) {
+    return model
+        .find({})
+        .then(
+            (model) => {
+                return model.map((user) => user.view('short').id);
+            })
+        .then(
+            successJSON(res)
+        ).catch(next);
+};
+
+module.exports.show=(req,res,next)=>{
+    let id=req.params.id;
+    return model.findById(id)
+        .then(notFound(res))
+        .then((user)=>user.view())
+        .then(successJSON(res))
+        .catch(next)
+};
+
+module.exports.showMe = (req, res) => {
+    return res.json(req.user.view());
+};
 
 module.exports.create = (req, res, next) => {
     let user={};
     user.email=req.body.email;
     user.name=req.body.name;
     user.password=req.body.password;
-    model.create(user)
+    return model.create(user)
         .then((user) => user.view())
         .then(successJSON(res, 201))
         .catch((err) => {
@@ -29,7 +52,7 @@ module.exports.create = (req, res, next) => {
 
 module.exports.update = ({body, params, user}, res, next) => {
     let profile= body;
-    model.findById(params.id === 'me' ? user.id : params.id)
+    return model.findById(params.id === 'me' ? user.id : params.id)
         .then(notFound(res))
         .then((result) => {
             if (!result)

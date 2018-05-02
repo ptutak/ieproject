@@ -58,9 +58,18 @@ UserSchema.statics = {
 
 UserSchema.methods = {
     view(mode='full') {
-        let fields = ['id','name','role','picture', 'email'];
-        if (mode==='short')
-            fields=['id','name'];
+        let fields=[];
+        switch(mode){
+            case 'full':
+                fields=['id','name','role','picture', 'email'];
+                break;
+            case 'short':
+                fields=['id'];
+                break;
+            default:
+                fields=['id'];
+        }
+
         let userView = {};
         fields.forEach((field) => {
             userView[field] = this[field]

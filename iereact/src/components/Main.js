@@ -6,7 +6,8 @@ import AddBook from './AddBook';
 import Books from './Books';
 import Register from './Register';
 import Login from './Login';
-import Profile from "./Profile";
+import Profile from './Profile';
+import UserList from './UserList';
 
 
 class Main extends Component {
@@ -31,7 +32,9 @@ class Main extends Component {
                               changeMain={this.props.changeMain}
                               changeWelcomeTitle={this.props.changeWelcomeTitle}/>;
             case "Profile":
-                return <Profile profileId='me' credentials={this.props.credentials}/>;
+                return <Profile profileId='me' showRole={false} credentials={this.props.credentials}/>;
+            case "UserList":
+                return <UserList credentials={this.props.credentials}/>;
             default:
                 return <Welcome title={this.props.welcomeTitle} />;
         }

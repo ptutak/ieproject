@@ -27,7 +27,7 @@ module.exports.show = function(req, res, next){
 
 module.exports.create = function(req, res, next){
     const body = req.body;
-    model.create(body)
+    return model.create(body)
         .then((book) => book.view('full'))
         .then(successJSON(res))
         .catch(next)
