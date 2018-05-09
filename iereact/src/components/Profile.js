@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import requestJSON from '../services/requestJSON';
-import {Button, Table, ListGroup, ListGroupItem, Image,Form, FormGroup, FormControl, ControlLabel, Radio} from 'react-bootstrap';
+import {Button, Table, ListGroup, ListGroupItem, Image,Form, FormGroup, FormControl, ControlLabel, Radio, HelpBlock} from 'react-bootstrap';
 
 export default class Profile extends Component{
     constructor(props){
@@ -34,6 +34,7 @@ export default class Profile extends Component{
         this.handleNewPassChange=this.handleNewPassChange.bind(this);
         this.handleRepPassChange=this.handleRepPassChange.bind(this);
         this.handleUpdatePassword=this.handleUpdatePassword.bind(this);
+        this.handleCancelPassword=this.handleCancelPassword.bind(this);
 
         this.handleChangePicture=this.handleChangePicture.bind(this);
         this.handlePictureOnChange=this.handlePictureOnChange.bind(this);
@@ -155,6 +156,11 @@ export default class Profile extends Component{
         event.preventDefault();
     }
 
+    handleCancelPassword(event){
+        this.setState({passChange:false});
+        event.preventDefault();
+    }
+
     renderPassword(){
         if (!this.state.passChange)
             return (
@@ -174,6 +180,11 @@ export default class Profile extends Component{
                         <FormControl type={'password'} value={this.state.repNewPass} placeholder={'Repeated Password'} onChange={this.handleRepPassChange}/>
                     </FormGroup>
                     <Button type={'submit'} onClick={this.handleUpdatePassword}>Update Password</Button>
+                    <p>
+                        <HelpBlock>Passwords have to much, and must be at least 6 characters long.</HelpBlock>
+                        <Button onClick={this.handleCancelPassword}>Cancel</Button>
+                    </p>
+
                 </Form>
             </ListGroupItem>
         )
@@ -268,7 +279,7 @@ export default class Profile extends Component{
                 <ListGroupItem>
                     Role: {this.state.profile.role}
                     <p style={{paddingTop:'10px'}}>
-                        <Button onClick={this.handleChangeRole}>ChangeRole</Button>
+                        <Button onClick={this.handleChangeRole}>Change Role</Button>
                     </p>
                 </ListGroupItem>
             )

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import UploadImage from "./UploadImage";
-import {ListGroup, ListGroupItem, Image, Table, Button} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Image, Table, Button, HelpBlock} from 'react-bootstrap';
 import requestJSON from '../services/requestJSON';
 
 export default class AddAuthor extends Component{
@@ -192,9 +192,11 @@ export default class AddAuthor extends Component{
                             <ListGroup style={{ textAlign:'left'}}>
                                 <ListGroupItem bsStyle={this.state.firstNameState}>
                                     First Name:<input type="text" onChange={this.handleFirstNameInput} value={this.state.first_name}/>
+                                    <HelpBlock>First name cannot be empty</HelpBlock>
                                 </ListGroupItem>
                                 <ListGroupItem bsStyle={this.state.lastNameState}>
                                     Last Name:<input type="text" onChange={this.handleLastNameInput} value={this.state.last_name}/>
+                                    <HelpBlock>Last name cannot be empty</HelpBlock>
                                 </ListGroupItem>
                                 <ListGroupItem>
                                     Books:
@@ -207,6 +209,7 @@ export default class AddAuthor extends Component{
                                 </ListGroupItem>
                                 <ListGroupItem bsStyle={this.state.dateState}>
                                     Date:<input type="date" onChange={this.handleDateInput}/>
+                                    <HelpBlock>Choose date of birth</HelpBlock>
                                 </ListGroupItem>
                                 <ListGroupItem>
                                     Upload author image:

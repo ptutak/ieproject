@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FormControl, FormGroup, Form, Col, ControlLabel, Button} from 'react-bootstrap';
+import {FormControl, FormGroup, Form, Col, ControlLabel, Button, HelpBlock} from 'react-bootstrap';
 import requestJSON from '../services/requestJSON';
 
 
@@ -99,6 +99,8 @@ export default class Register extends Component{
                             placeholder="Email"
                             onChange={this.onEmailChange}
                             value={this.state.email}/>
+                        <FormControl.Feedback />
+                        <HelpBlock>Email has to have a valid e-mail format.</HelpBlock>
                     </Col>
                 </FormGroup>
 
@@ -114,6 +116,8 @@ export default class Register extends Component{
                             placeholder="Password"
                             onChange={this.onPassChange}
                             value={this.state.password}/>
+                        <FormControl.Feedback />
+                        <HelpBlock>Password must be at least 6 characters long.</HelpBlock>
                     </Col>
                 </FormGroup>
 
@@ -129,6 +133,8 @@ export default class Register extends Component{
                             placeholder="Repeat password"
                             onChange={this.onRepPassChange}
                             value={this.state.repPassword}/>
+                        <FormControl.Feedback />
+                        <HelpBlock>Repeated password must match the password.</HelpBlock>
                     </Col>
                 </FormGroup>
 
@@ -144,6 +150,8 @@ export default class Register extends Component{
                             placeholder="Name"
                             onChange={this.onNameChange}
                             value={this.state.name}/>
+                        <FormControl.Feedback />
+                        <HelpBlock>Name cannot be empty.</HelpBlock>
                     </Col>
                 </FormGroup>
 

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import UploadImage from "./UploadImage";
-import {ListGroup, ListGroupItem, Image, Table, Button} from 'react-bootstrap';
+import {ListGroup, ListGroupItem, Image, Table, Button, HelpBlock} from 'react-bootstrap';
 import requestJSON from '../services/requestJSON';
 
 export default class AddBook extends Component{
@@ -46,10 +46,7 @@ export default class AddBook extends Component{
             .then((response)=>{return response.json()})
             .then((data)=>{
                 if (data.length>0){
-                    this.setState({allAuthors:data, authors:[data[0].id]})
-                }
-                else {
-                    this.setState({authors:[]})
+                    this.setState({allAuthors:data})
                 }
             })
     }
@@ -195,6 +192,7 @@ export default class AddBook extends Component{
                         <ListGroup style={{ textAlign:'left'}}>
                             <ListGroupItem bsStyle={this.state.titleState}>
                                 Title:<input type="text" onChange={this.handleTitleInput} value={this.state.title}/>
+                                <HelpBlock>Title cannot be empty</HelpBlock>
                             </ListGroupItem>
                             <ListGroupItem>
                                 Authors:
@@ -207,6 +205,7 @@ export default class AddBook extends Component{
                             </ListGroupItem>
                             <ListGroupItem bsStyle={this.state.yearState}>
                                 Year:<input type="text" value={this.state.year} onChange={this.handleYearInput}/>
+                                <HelpBlock>Year must be a positive value</HelpBlock>
                             </ListGroupItem>
                             <ListGroupItem>
                                 Upload book image:

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {FormControl, FormGroup, Form, Col, ControlLabel, Button} from 'react-bootstrap';
+import {FormControl, FormGroup, Form, Col, ControlLabel, Button, HelpBlock} from 'react-bootstrap';
 import requestJSON from "../services/requestJSON";
 
 export default class Login extends Component{
@@ -77,6 +77,7 @@ export default class Login extends Component{
                                 placeholder="Email"
                                 onChange={this.onEmailChange}
                                 value={this.state.email}/>
+                            <FormControl.Feedback />
                         </Col>
                     </FormGroup>
 
@@ -92,6 +93,8 @@ export default class Login extends Component{
                                 placeholder="Password"
                                 onChange={this.onPassChange}
                                 value={this.state.password}/>
+                            <FormControl.Feedback />
+                            <HelpBlock>Password must be at least 6 characters long</HelpBlock>
                         </Col>
                     </FormGroup>
 
