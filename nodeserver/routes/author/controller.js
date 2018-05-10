@@ -90,7 +90,6 @@ module.exports.delete = function(req, res, next){
 };
 
 /*
-// ---
 
 module.exports.searchByName = function(req, res, next){
     const name = req.params.name;

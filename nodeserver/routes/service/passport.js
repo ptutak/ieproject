@@ -1,9 +1,9 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const BearerStrategy  = require('passport-http-bearer').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt  = require('passport-jwt').ExtractJwt;
 const jwtSecret = require('../../config').jwtSecret;
+//const BearerStrategy  = require('passport-http-bearer').Strategy;
 
 const model = require('../user/model').model;
 
@@ -24,14 +24,6 @@ passport.use('password', new LocalStrategy({usernameField:'email',passwordField:
     })
 );
 
-passport.use('master', new BearerStrategy((token, done) => {
-    console.log(token);
-    if (token === masterKey) {
-        return done(null, {});
-    } else {
-        return done(null, false);
-    }
-}));
 
 passport.use('token', new JwtStrategy({
     secretOrKey: jwtSecret,
@@ -63,7 +55,6 @@ module.exports.password = (req, res, next) => {
         })(req, res, next)
     };
 
-module.exports.master = passport.authenticate('master', { session: false });
 
 module.exports.token = ({ required, roles = model.roles } = {}) => (req, res, next) =>
     passport.authenticate('token', { session: false }, (err, user, info) => {
@@ -90,4 +81,15 @@ module.exports.token = ({ required, roles = model.roles } = {}) => (req, res, ne
 
 
 
+/*
+passport.use('master', new BearerStrategy((token, done) => {
+    console.log(token);
+    if (token === masterKey) {
+        return done(null, {});
+    } else {
+        return done(null, false);
+    }
+}));
 
+module.exports.master = passport.authenticate('master', { session: false });
+*/

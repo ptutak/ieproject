@@ -1,2 +1,0 @@
-mongoimport -d biblioteka -c ksiazkis --type csv --file ksiazki.csv --headerline
-mongoimport -d biblioteka -c autorzys --type csv --file autorzy.csv --headerline

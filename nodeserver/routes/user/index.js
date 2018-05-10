@@ -6,7 +6,9 @@ const destroy = require('./controller').destroy;
 const create = require('./controller').create;
 const index = require('./controller').index;
 const show = require('./controller').show;
+
 const router = express.Router();
+
 
 router.get('/', token({ required: true, roles:['admin']}), index);
 router.get('/me',token({ required: true }),showMe);
