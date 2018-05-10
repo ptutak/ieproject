@@ -2,20 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3a1a4a23-ecf3-4788-8e7f-882b7cc7bc69" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/../nodeserver/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../nodeserver/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/app.js" afterPath="$PROJECT_DIR$/../nodeserver/app.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/autorzy.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/command.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/ksiazki.csv" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/author/controller.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/author/controller.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/service/images.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/service/images.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/service/jwt.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/service/jwt.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/service/passport.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/service/passport.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/routes/user/index.js" afterPath="$PROJECT_DIR$/../nodeserver/routes/user/index.js" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/views/error.jade" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/views/index.jade" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/../nodeserver/views/layout.jade" afterPath="" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -288,12 +275,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="iereact" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iereact" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -389,12 +370,12 @@
       <workItem from="1525241686547" duration="10369000" />
       <workItem from="1525849384386" duration="2081000" />
       <workItem from="1525959029449" duration="1041000" />
-      <workItem from="1525960085933" duration="381000" />
+      <workItem from="1525960085933" duration="619000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="190107000" />
+    <option name="totallyTimeSpent" value="190345000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -407,9 +388,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="-1" width="3442" height="1421" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18326458" sideWeight="0.49595377" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18326458" sideWeight="0.49595377" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32944834" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5030303" order="7" side_tool="true" content_ui="tabs" />
@@ -418,7 +398,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24985269" sideWeight="0.50404626" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29994106" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33100232" sideWeight="0.4780303" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33100232" sideWeight="0.4780303" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.16747968" sideWeight="0.4969697" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
